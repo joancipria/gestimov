@@ -1,0 +1,180 @@
+/****** VIEWPORT SIZES ******/
+#nav-bar{
+  height: auto;
+}
+#slide-show{
+  height: auto;
+}
+#main-info{
+  height: auto;
+}
+#clients{
+  height: auto;
+}
+
+/****** MOBILE VERSION ******/
+#mobile-welcome {
+    display: none;
+}
+
+@media screen and (max-width: 1024px) {
+    #slide-show {
+        display: none;
+    }
+    #mobile-welcome {
+        display: inline-block;
+        background-color: #3498DB;
+        color: white;
+        width: 100%;
+    }
+    #mobile-welcome .content {
+        display: block;
+        text-align: center;
+    }
+    #clients {
+        padding: 10px;
+    }
+    #clients img {
+        width: 10%;
+    }
+
+    /*Viewport*/
+    #nav-bar{
+      height: auto;
+    }
+    #mobile-welcome{
+      height: auto;
+    }
+    #main-info{
+      height: auto;
+    }
+    #clients{
+      height: auto;
+    }
+}
+
+
+/****** SLIDER ******/
+
+.sl-slide {
+    display: none;
+}
+
+.sl-slide-horizontal .sl-slide-inner {
+    background: #b7c3df;
+}
+
+.sl-slide-vertical .sl-slide-inner {
+    background: #3498DB;
+}
+
+.item3 .sl-slide-inner {
+    background: #a4ca39;
+}
+
+
+/****** NAVBAR MENU ******/
+
+.navbar .nav>li.active>a, .navbar .nav>li.active>a:hover {
+    color: #3498DB;
+}
+
+.navbar .nav>li.active>a, .navbar .nav>li>a:hover {
+    color: #3498DB;
+}
+
+.nav {
+    margin-top: 20px;
+}
+
+.navbar-toggle {
+    margin-top: 20px;
+}
+
+.navbar {
+    margin-bottom: 0px;
+}
+
+.navbar-brand {
+    padding: 0px;
+}
+
+.navbar-brand>img {
+    height: 100%;
+    padding: 8px;
+    width: auto;
+}
+
+.example3 .navbar-brand {}
+
+.example3 .nav>li>a {
+    padding-top: 30px;
+    padding-bottom: 30px;
+}
+
+.example3 .navbar-toggle {
+    padding: 10px;
+    margin: 25px 15px 25px 0;
+}
+
+.navbar-default {
+    background-color: #fff;
+    border: none;
+}
+
+.navbar-default .navbar-nav>.active>a, .navbar-default .navbar-nav>.active>a:focus, .navbar-default .navbar-nav>.active>a:hover {
+    background: none;
+}
+
+.navbar .nav>li.login>a {
+    border-left: 1px solid #e5e5e5;
+}
+
+.navbar .nav>li>a {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    color: #333;
+    font-family: "Fjalla One";
+    font-size: 14px;
+    text-transform: uppercase;
+    text-shadow: none;
+}
+
+
+/****** SECTIONS ******/
+
+.main-info {
+    color: #34495e;
+}
+
+#clients {
+    background: #efefef;
+}
+
+#clients img {
+    margin-right: 4%;
+}
+
+
+/****** PAGES ******/
+
+
+/* FAQ */
+
+.title {
+    background: #3498DB;
+    color: #fff;
+    padding: 20px 0;
+}
+
+ul.faq li span.number {
+    display: block;
+    float: left;
+    width: 50px;
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+    background: #3498DB;
+    color: #fff;
+    font-size: 24px;
+}
