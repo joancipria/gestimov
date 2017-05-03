@@ -41,10 +41,10 @@
     color: white;
 }
 .navbar-default .navbar-brand {
-    color: white;
+    color: #777;
 }
 .navbar-default .navbar-brand:hover {
-    color: white;
+    color: #777;
 }
 
 .navmenu, .navbar-offcanvas {
@@ -58,19 +58,136 @@
 .avatar{
   width: 15%;
 }
+.navmenu-default .navmenu-nav > li > a, .navbar-default .navbar-offcanvas .navmenu-nav > li > a {
+    color: #337ab7;
+}
+.nav > li .active > a:focus, .navbar-default .navbar-offcanvas .navmenu-nav > .active > a:focus {
+    color: #337ab7;
+    background-color: #eeeeee;
+}
+.navmenu-default .navmenu-nav > li > a:hover, .navbar-default .navbar-offcanvas .navmenu-nav > li > a:hover, .navmenu-default .navmenu-nav > li > a:focus, .navbar-default .navbar-offcanvas .navmenu-nav > li > a:focus {
+    color: #23527c;
+    background-color: #eeeeee;
+}
+.navbar-default {
+    background-color: #f8f8f8;
+    border-color: #e7e7e7;
+}
+.nav > li {
+    border-bottom: 1px solid #e7e7e7;
+}
+.navmenu-default .navmenu-nav > .active > a, .navbar-default .navbar-offcanvas .navmenu-nav > .active > a, .navmenu-default .navmenu-nav > .active > a:hover, .navbar-default .navbar-offcanvas .navmenu-nav > .active > a:hover, .navmenu-default .navmenu-nav > .active > a:focus, .navbar-default .navbar-offcanvas .navmenu-nav > .active > a:focus {
+    color: #337ab7;
+}
+.dropdown-menu > .active > a, .dropdown-menu > .active > a:focus, .dropdown-menu > .active > a:hover {
+padding-left: 37px;
+}
+.page-header {
+    margin: 80px 0 20px;
+}
+#wpadminbar {
+    direction: ltr;
+    color: #337ab7;
+    height: auto;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    min-width: 600px;
+    z-index: 99999;
+    background: #f8f8f8;
+    border: 1px solid #e7e7e7;
+}
+@media screen and (max-width: 992px) {
+  #wpadminbar {
+    display: none;
+}
+.page-header {
+    margin: 40px 0 20px;
+}
+}
+.navbar-login
+{
+    width: 305px;
+    padding: 10px;
+    padding-bottom: 0px;
+}
+
+.navbar-login-session
+{
+    padding: 10px;
+    padding-bottom: 0px;
+    padding-top: 0px;
+}
+
+.icon-size
+{
+    font-size: 87px;
+}
+.navbar-right {
+    float: right !important;
+    margin-right: 0px;
+}
+
+.top-navbar-brand-img {
+    width: 9%;
+    margin-left: 10px;
+}
 </style>
   </head>
 
   <body>
+    <div id="wpadminbar" class="ltr">
+      <img class="top-navbar-brand-img" src="<?php echo Config::get('URL'); ?>img/logo.png" alt="">
+      <ul class="nav navbar-nav navbar-right">
+    <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+            <i class="icon-user" aria-hidden="true"></i>
+            <strong><?php echo Session::get('user_name'); ?></strong>
+            <i class="icon-caret-down" aria-hidden="true"></i>
+        </a>
+        <ul class="dropdown-menu">
+            <li>
+                <div class="navbar-login">
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <p class="text-center">
+                                <img src="<?php echo Session::get('user_gravatar_image_url'); ?>" alt="">
+                            </p>
+                        </div>
+                        <div class="col-lg-8">
+                            <p class="text-left"><strong>Salman Khan</strong></p>
+                            <p class="text-left small"><?php echo Session::get('user_email'); ?></p>
+                            <p class="text-left">
+                                <a target="_blank" href="<?= Config::get('URL') . 'dashboard/showProfile/' . Session::get('user_id'); ?>" class="btn btn-primary btn-block btn-sm">Profile</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li class="divider navbar-login-session-bg"></li>
+             <li><a href="#">Account Settings <span class="glyphicon glyphicon-cog pull-right"></span></a></li>
+<li class="divider"></li>
+<li><a href="#">User stats <span class="glyphicon glyphicon-stats pull-right"></span></a></li>
+<li class="divider"></li>
+<li><a href="#">Messages <span class="badge pull-right"> 42 </span></a></li>
+<li class="divider"></li>
+<li><a href="#">Favourites Snippets <span class="glyphicon glyphicon-heart pull-right"></span></a></li>
+<li class="divider"></li>
+<li><a href="/login/logout">Sign Out <i class="icon-sign-out" aria-hidden="true"></i></a></li>
+        </ul>
+    </li>
+</ul>
+</div>
     <div class="navmenu navmenu-default navmenu-fixed-left offcanvas-sm">
-      <a class="navmenu-brand visible-md visible-lg" href="#"><img src="<?php echo Config::get('URL'); ?>img/logo.png" alt=""></a>
+      <a class="navmenu-brand visible-md visible-lg" href="#"><br><br></a>
       <ul class="nav navmenu-nav">
         <li<?php if (View::checkForActiveAction($filename, "index")) { echo ' class="active" '; } ?>><a href="/dashboard/index"><i class="icon-home" aria-hidden="true"></i> Principal</a></li>
 
         <!--My Documents-->
         <?php if (Session::get("user_account_type") == 1) { ?>
           <li <?php if (View::checkForActiveAction($filename, "mydocuments")) { echo ' class="active" '; } ?> >
-          <a href="<?php echo Config::get('URL'); ?>dashboard/mydocuments"><i class="icon-file-text" aria-hidden="true"></i> My Documents</a>
+          <a href="<?php echo Config::get('URL'); ?>dashboard/mydocuments/<?php echo Session::get('user_id')?>"><i class="icon-file-text" aria-hidden="true"></i> My Documents</a>
          </li>
          <?php } ?>
 
@@ -111,7 +228,7 @@
             <?php if (View::checkForActiveAction($filename, "showProfile")) { ?>
             <li class="active" ><a href="#">View Profile</a></li>
             <?php  } ?>
-            <li><a href="#">Invite Users</a></li>
+            <li><a href="/dashboard/inviteUsers">Invite Users</a></li>
           </ul>
         </li>
            <?php } ?>
@@ -123,7 +240,6 @@
             </li>
             <?php } ?>
       </ul>
-      <a class="disconnect-button" href="/login/logout">Salir</a>
     </div>
 
     <div class="navbar navbar-default navbar-fixed-top hidden-md hidden-lg">

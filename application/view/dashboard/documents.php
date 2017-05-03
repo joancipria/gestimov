@@ -1,7 +1,7 @@
 <span id="section-title" class="navbar-brand" href="#">Documents</span>
 </div>
 <div class="page-header">
-  <h1>Documents page</h1>
+  <h2>Documents</h2>
 </div>
 <div id="main-content" class="container">
   <table class="table table-striped">

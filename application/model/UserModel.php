@@ -7,7 +7,6 @@
  */
 class UserModel
 {
-
   public static function getDocumentsOfAllUsers()
   {
       Auth::checkAdminAuthentication();

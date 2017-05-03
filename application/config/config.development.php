@@ -46,6 +46,8 @@ return array(
      */
     'PATH_AVATARS' => realpath(dirname(__FILE__).'/../../') . '/public/avatars/',
     'PATH_AVATARS_PUBLIC' => 'avatars/',
+
+    'DOCS_AVATARS' => realpath(dirname(__FILE__).'/../../') . '/docs/',
     /**
      * Configuration for: Default controller and action
      */

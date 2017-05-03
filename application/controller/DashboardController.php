@@ -35,6 +35,7 @@ class DashboardController extends Controller
     public function mydocuments()
     {
       $this->View->render('dashboard/mydocuments',null,'sidenavbar','dashboardfooter');
+
     }
 
     public function students()
@@ -68,6 +69,12 @@ class DashboardController extends Controller
       $this->View->render('dashboard/flows',null,'sidenavbar','dashboardfooter');
     }
 
+    public function inviteUsers()
+    {
+      Auth::checkAdminAuthentication();
+      $this->View->render('dashboard/inviteUsers',null,'sidenavbar','dashboardfooter');
+    }
+
     public function showProfile($user_id)
     {
         if (isset($user_id)) {
@@ -77,5 +84,17 @@ class DashboardController extends Controller
         } else {
             Redirect::home();
         }
+    }
+
+    public function editProfile()
+    {
+      $user_id = session::get('user_id');
+      if (isset($user_id)) {
+          $this->View->render('dashboard/editProfile',array(
+              'user' => UserModel::getPublicProfileOfUser($user_id)),'sidenavbar','dashboardfooter');
+
+      } else {
+          Redirect::home();
+      }
     }
 }

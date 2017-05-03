@@ -1,7 +1,8 @@
 <span id="section-title" class="navbar-brand" href="#">Users</span>
 </div>
 <div class="page-header">
-  <h1>Users page</h1> <?php $this->renderFeedbackMessages(); ?>
+  <h2>Users page</h2>
+  <?php $this->renderFeedbackMessages(); ?>
 </div>
 <div id="main-content" class="container">
     <div class="box">

@@ -15,6 +15,7 @@ class RegistrationModel
      */
     public static function registerNewUser()
     {
+      Auth::checkAdminAuthentication();
         // clean the input
         $user_name = strip_tags(Request::post('user_name'));
         $user_email = strip_tags(Request::post('user_email'));
@@ -188,7 +189,20 @@ class RegistrationModel
 
         return true;
     }
+    public static function getCodCent()
+    {
+        $database = DatabaseFactory::getFactory()->getConnection();
 
+        $sql = "SELECT codcent FROM personas,users WHERE users.user_id = :user_id AND personas.dni = users.user_name LIMIT 1";
+        $query = $database->prepare($sql);
+        $query->execute(array(':user_id' => Session::get('user_id')));
+
+        // fetch() is the PDO method that gets a single result
+        $result = json_encode($query->fetch());
+        $result = json_decode($result,true);
+
+        return intval($result['codcent']);
+    }
     /**
      * Writes the new user's data to the database
      *
@@ -203,6 +217,18 @@ class RegistrationModel
     public static function writeNewUserToDatabase($user_name, $user_password_hash, $user_email, $user_creation_timestamp, $user_activation_hash)
     {
         $database = DatabaseFactory::getFactory()->getConnection();
+        $user_codcent = self::getCodCent();
+
+        // write new users data into database
+        $sql = "INSERT INTO personas (dni, codcent)
+                    VALUES (:user_name, :codcent)";
+        $query = $database->prepare($sql);
+        $query->execute(array(':user_name' => $user_name,
+                              ':codcent' => $user_codcent));
+        $count =  $query->rowCount();
+
+
+
 
         // write new users data into database
         $sql = "INSERT INTO users (user_name, user_password_hash, user_email, user_creation_timestamp, user_activation_hash, user_provider_type)
@@ -214,8 +240,8 @@ class RegistrationModel
                               ':user_creation_timestamp' => $user_creation_timestamp,
                               ':user_activation_hash' => $user_activation_hash,
                               ':user_provider_type' => 'DEFAULT'));
-        $count =  $query->rowCount();
-        if ($count == 1) {
+        $count2 =  $query->rowCount();
+        if ($count == 1 && $count2 == 1) {
             return true;
         }
 

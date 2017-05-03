@@ -38,7 +38,7 @@
 <span id="section-title" class="navbar-brand" href="#">User Profile</span>
 </div>
 <div class="page-header">
-  <h1>User Profile</h1>
+  <h2>User Profile</h2>
 </div>
 <div id="main-content" class="container">
 
