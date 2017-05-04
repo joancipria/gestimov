@@ -26,10 +26,19 @@ class DashboardController extends Controller
 
     public function documents()
     {
-      Auth::checkAdminAuthentication();
-      $this->View->render('dashboard/documents', array(
-              'users' => UserModel::getDocumentsOfAllUsers()),'sidenavbar','dashboardfooter'
-      );
+      if (Session::get("user_account_type") >= 7) {
+        Auth::checkAdminAuthentication();
+        $this->View->render('dashboard/documents', array(
+                'users' => UserModel::getDocumentsOfAllUsers()),'sidenavbar','dashboardfooter'
+        );
+      }
+      if (Session::get("user_account_type") == 2){
+        Auth::checkTeacherAuthentication();
+        $this->View->render('dashboard/documents', array(
+                'users' => UserModel::getDocumentsOfMyStudents()),'sidenavbar','dashboardfooter'
+        );
+      }
+
     }
 
     public function mydocuments()
@@ -40,7 +49,10 @@ class DashboardController extends Controller
 
     public function students()
     {
-      $this->View->render('dashboard/students',null,'sidenavbar','dashboardfooter');
+      Auth::checkTeacherAuthentication();
+      $this->View->render('dashboard/students', array(
+              'users' => UserModel::getPublicProfilesOfMyStudents()),'sidenavbar','dashboardfooter'
+      );
     }
 
     public function users()
@@ -69,12 +81,6 @@ class DashboardController extends Controller
       $this->View->render('dashboard/flows',null,'sidenavbar','dashboardfooter');
     }
 
-    public function inviteUsers()
-    {
-      Auth::checkAdminAuthentication();
-      $this->View->render('dashboard/inviteUsers',null,'sidenavbar','dashboardfooter');
-    }
-
     public function showProfile($user_id)
     {
         if (isset($user_id)) {
@@ -96,5 +102,16 @@ class DashboardController extends Controller
       } else {
           Redirect::home();
       }
+    }
+
+    public function upload_action()
+    {
+        $registration_successful = DocsModel::uploadFile();
+
+        if ($registration_successful) {
+            Redirect::to('login/index');
+        } else {
+            Redirect::to('register/index');
+        }
     }
 }

@@ -31,6 +31,13 @@
     body {
     padding: 0 0 0 200px;
 }
+.toolbar-button{
+    display: inline;
+    float: right;
+    margin-right: 20px;
+}
+
+
 }
       #section-title:first-letter {
         text-transform:capitalize;
@@ -84,6 +91,9 @@ padding-left: 37px;
 }
 .page-header {
     margin: 80px 0 20px;
+}
+.page-header h2{
+display: inline-block;
 }
 #wpadminbar {
     direction: ltr;
@@ -222,14 +232,7 @@ padding-left: 37px;
           <!--Users-->
           <?php if (Session::get("user_account_type") >= 7) { ?>
           <li <?php if (View::checkForActiveAction($filename, "users")) { echo ' class="active open" '; } ?> class="dropdown <?php if (View::checkForActiveAction($filename, "showProfile")) { echo 'open'; } ?>">
-          <a href="<?php echo Config::get('URL'); ?>dashboard/users" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-user" aria-hidden="true"></i> Users</a>
-          <ul class="dropdown-menu navmenu-nav">
-            <li <?php if (View::checkForActiveAction($filename, "users")) { echo ' class="active" '; } ?>><a href="<?php echo Config::get('URL'); ?>dashboard/users">All Users</a></li>
-            <?php if (View::checkForActiveAction($filename, "showProfile")) { ?>
-            <li class="active" ><a href="#">View Profile</a></li>
-            <?php  } ?>
-            <li><a href="/dashboard/inviteUsers">Invite Users</a></li>
-          </ul>
+          <a href="<?php echo Config::get('URL'); ?>dashboard/users"><i class="icon-user" aria-hidden="true"></i> Users</a>
         </li>
            <?php } ?>
 

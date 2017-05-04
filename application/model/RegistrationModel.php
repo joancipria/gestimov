@@ -15,7 +15,14 @@ class RegistrationModel
      */
     public static function registerNewUser()
     {
-      Auth::checkAdminAuthentication();
+      Auth::checkNoStudentAuthentication();
+      if (Session::get("user_account_type") >= 7){
+        $user_codcent = Request::post('user_codcent');
+      }
+      if (Session::get("user_account_type") == 2) {
+        $user_codcent = self::getCodCent();
+      }
+
         // clean the input
         $user_name = strip_tags(Request::post('user_name'));
         $user_email = strip_tags(Request::post('user_email'));
@@ -55,7 +62,7 @@ class RegistrationModel
         $user_activation_hash = sha1(uniqid(mt_rand(), true));
 
         // write user data to database
-        if (!self::writeNewUserToDatabase($user_name, $user_password_hash, $user_email, time(), $user_activation_hash)) {
+        if (!self::writeNewUserToDatabase($user_name, $user_password_hash, $user_email, time(), $user_activation_hash, $user_codcent)) {
             Session::add('feedback_negative', Text::get('FEEDBACK_ACCOUNT_CREATION_FAILED'));
             return false; // no reason not to return false here
         }
@@ -214,10 +221,9 @@ class RegistrationModel
      *
      * @return bool
      */
-    public static function writeNewUserToDatabase($user_name, $user_password_hash, $user_email, $user_creation_timestamp, $user_activation_hash)
+    public static function writeNewUserToDatabase($user_name, $user_password_hash, $user_email, $user_creation_timestamp, $user_activation_hash,$user_codcent)
     {
         $database = DatabaseFactory::getFactory()->getConnection();
-        $user_codcent = self::getCodCent();
 
         // write new users data into database
         $sql = "INSERT INTO personas (dni, codcent)

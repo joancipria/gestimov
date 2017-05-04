@@ -45,6 +45,27 @@ class Auth
      * If user is not, then he will be redirected to login page and the application is hard-stopped via exit().
      * Using this method makes only sense in controllers that should only be used by admins.
      */
+     public static function checkNoStudentAuthentication()
+     {
+         // initialize the session (if not initialized yet)
+         Session::init();
+
+         // self::checkSessionConcurrency();
+
+         // if user is not logged in or is not an admin (= not role type 7)
+         if (!Session::userIsLoggedIn() || Session::get("user_account_type") <= 1) {
+
+             // ... then treat user as "not logged in", destroy session, redirect to login page
+             Session::destroy();
+             header('location: ' . Config::get('URL') . 'login');
+
+             // to prevent fetching views via cURL (which "ignores" the header-redirect above) we leave the application
+             // the hard way, via exit(). @see https://github.com/panique/php-login/issues/453
+             // this is not optimal and will be fixed in future releases
+             exit();
+         }
+     }
+
     public static function checkAdminAuthentication()
     {
         // initialize the session (if not initialized yet)
@@ -54,6 +75,27 @@ class Auth
 
         // if user is not logged in or is not an admin (= not role type 7)
         if (!Session::userIsLoggedIn() || Session::get("user_account_type") != 7) {
+
+            // ... then treat user as "not logged in", destroy session, redirect to login page
+            Session::destroy();
+            header('location: ' . Config::get('URL') . 'login');
+
+            // to prevent fetching views via cURL (which "ignores" the header-redirect above) we leave the application
+            // the hard way, via exit(). @see https://github.com/panique/php-login/issues/453
+            // this is not optimal and will be fixed in future releases
+            exit();
+        }
+    }
+
+    public static function checkTeacherAuthentication()
+    {
+        // initialize the session (if not initialized yet)
+        Session::init();
+
+        // self::checkSessionConcurrency();
+
+        // if user is not logged in or is not an admin (= not role type 7)
+        if (!Session::userIsLoggedIn() || Session::get("user_account_type") != 2) {
 
             // ... then treat user as "not logged in", destroy session, redirect to login page
             Session::destroy();

@@ -7,6 +7,40 @@
  */
 class UserModel
 {
+  public static function getPublicProfilesOfMyStudents()
+  {
+    Auth::checkTeacherAuthentication();
+      $database = DatabaseFactory::getFactory()->getConnection();
+      $codcent = RegistrationModel::getCodCent();
+
+      $sql = "SELECT users.user_id,personas.nom AS nom, personas.ape AS ape,personas.dni AS dni, centros.nom AS nomcent FROM users, personas,centros WHERE users.user_name = personas.dni AND personas.codcent = centros.cod AND centros.cod = :codcent";
+      $query = $database->prepare($sql);
+      $query->execute(array(':codcent' => $codcent));
+
+      $all_users_profiles = array();
+
+      foreach ($query->fetchAll() as $user) {
+
+          // all elements of array passed to Filter::XSSFilter for XSS sanitation, have a look into
+          // application/core/Filter.php for more info on how to use. Removes (possibly bad) JavaScript etc from
+          // the user's values
+          array_walk_recursive($user, 'Filter::XSSFilter');
+
+          $all_users_profiles[$user->user_id] = new stdClass();
+          $all_users_profiles[$user->user_id]->user_id = $user->user_id;
+          $all_users_profiles[$user->user_id]->nom = $user->nom;
+          $all_users_profiles[$user->user_id]->ape = $user->ape;
+          $all_users_profiles[$user->user_id]->nomcent = $user->nomcent;
+          $all_users_profiles[$user->user_id]->dni = $user->dni;
+      }
+
+      return $all_users_profiles;
+  }
+
+
+
+
+
   public static function getDocumentsOfAllUsers()
   {
       Auth::checkAdminAuthentication();
@@ -15,6 +49,38 @@ class UserModel
       $sql = "SELECT users.user_id,personas.nom AS nom, personas.ape AS ape, centros.nom AS nomcent, docs.foto AS personalfoto FROM users, personas,centros,docs WHERE users.user_name = personas.dni AND personas.codcent = centros.cod AND docs.dni = personas.dni";
       $query = $database->prepare($sql);
       $query->execute();
+
+      $all_users_profiles = array();
+
+      foreach ($query->fetchAll() as $user) {
+
+          // all elements of array passed to Filter::XSSFilter for XSS sanitation, have a look into
+          // application/core/Filter.php for more info on how to use. Removes (possibly bad) JavaScript etc from
+          // the user's values
+          array_walk_recursive($user, 'Filter::XSSFilter');
+
+          $all_users_profiles[$user->user_id] = new stdClass();
+          $all_users_profiles[$user->user_id]->user_id = $user->user_id;
+          $all_users_profiles[$user->user_id]->nom = $user->nom;
+          $all_users_profiles[$user->user_id]->ape = $user->ape;
+          $all_users_profiles[$user->user_id]->nomcent = $user->nomcent;
+          $all_users_profiles[$user->user_id]->personalfoto = $user->personalfoto;
+      }
+
+      return $all_users_profiles;
+  }
+
+
+
+  public static function getDocumentsOfMyStudents()
+  {
+      Auth::checkTeacherAuthentication();
+      $database = DatabaseFactory::getFactory()->getConnection();
+      $codcent = RegistrationModel::getCodCent();
+
+      $sql = "SELECT users.user_id,personas.nom AS nom, personas.ape AS ape, centros.nom AS nomcent, docs.foto AS personalfoto FROM users, personas,centros,docs WHERE users.user_name = personas.dni AND personas.codcent = :codcent AND docs.dni = personas.dni";
+      $query = $database->prepare($sql);
+      $query->execute(array(':codcent' => $codcent));
 
       $all_users_profiles = array();
 
