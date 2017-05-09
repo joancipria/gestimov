@@ -44,7 +44,8 @@ CREATE TABLE `centros` (
 
 INSERT INTO `centros` (`cod`, `nom`, `direccion`, `poblacion`, `cp`, `provincia`, `pais`, `tel`, `fax`) VALUES
 (46001199, 'IES Sant Vicent Ferrer', 'Parc Salvador Castell, 16', 'Algemesi', 46680, 'Valencia', 'Espanya', 962457820, 962457821),
-(46018692, 'IES LLuis Simarro', 'Av. Corts Valencianes s/n', 'Xativa', 46800, 'Valencia', 'Espanya', 962249080, 962249081);
+(46018692, 'IES LLuis Simarro', 'Av. Corts Valencianes s/n', 'Xativa', 46800, 'Valencia', 'Espanya', 962249080, 962249081),
+(46025040, 'IES Abastos', 'Cl ALBERIQUE 18 ', 'Valencia', 46008, 'Valencia', 'Espanya', 963820831, 963820832);
 
 -- --------------------------------------------------------
 
@@ -115,6 +116,23 @@ INSERT INTO `flujo_personas` (`fpdni`, `fpid`, `Activo`) VALUES
 ('11122233E', 'IT1', 'si'),
 ('85212369W', 'IT1', 'si');
 
+
+
+
+CREATE TABLE `centros_consorcios` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `cod_cent` int(8) NOT NULL,
+  `cod_cons` int(8) NOT NULL,
+  PRIMARY KEY ( `id` )
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+CREATE TABLE `consorcios` (
+  `cod` int(8) NOT NULL AUTO_INCREMENT,
+  `nom` varchar(50) NOT NULL,
+  PRIMARY KEY ( `cod` )
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+
 -- --------------------------------------------------------
 
 --
@@ -155,7 +173,6 @@ CREATE TABLE `personas` (
   `ape` varchar(50) NOT NULL DEFAULT 'Empty',
   `dni` varchar(9) COLLATE utf8_unicode_ci NOT NULL,
   `telefono` int(9) NOT NULL DEFAULT 000000000,
-  `email` varchar(50) NOT NULL DEFAULT 'Empty',
   `direccion` varchar(40) NOT NULL DEFAULT 'Empty',
   `poblacion` varchar(20) NOT NULL DEFAULT 'Empty',
   `cp` int(5) NOT NULL DEFAULT 00000,
@@ -169,9 +186,9 @@ CREATE TABLE `personas` (
 -- Volcado de datos para la tabla `personas`
 --
 
-INSERT INTO `personas` (`nom`, `ape`, `dni`, `telefono`, `email`, `direccion`, `poblacion`, `cp`, `provincia`, `pais`, `fechanac`, `codcent`) VALUES
-('Paco', 'Llopis Martinez', '11122233E', 614002351, 'paco.123@gmail.com', 'Calle La Reina 10-3-6', 'Xativa', 46800, 'Valencia', 'Espanya', '1999-02-15', 46018692),
-('Menor', 'q', '85212369W', 987987987, 'q', 'q', 'q', 46800, 'q', 'q', '1998-12-12', 46001199);
+INSERT INTO `personas` (`nom`, `ape`, `dni`, `telefono`, `direccion`, `poblacion`, `cp`, `provincia`, `pais`, `fechanac`, `codcent`) VALUES
+('Paco', 'Llopis Martinez', '11122233E', 614002351,  'Calle La Reina 10-3-6', 'Xativa', 46800, 'Valencia', 'Espanya', '1999-02-15', 46018692),
+('Antonio', 'Rosado Aguado', '85212369W', 987987987, 'Calle Mº Concepción Nº32', 'Benicull', 46800, 'q', 'q', '1998-12-12', 46001199);
 
 -- --------------------------------------------------------
 
@@ -260,6 +277,7 @@ ALTER TABLE `personas`
 
 
 
+
 --
 -- AUTO_INCREMENT de las tablas volcadas
 --
@@ -302,6 +320,12 @@ ALTER TABLE `personas`
 --
 ALTER TABLE `users`
   ADD CONSTRAINT `usuarios_ibfk_1` FOREIGN KEY (`user_name`) REFERENCES `personas` (`dni`) ON UPDATE CASCADE;
+  
+ALTER TABLE `centros_consorcios`
+  ADD CONSTRAINT `centro_ibfk_1` FOREIGN KEY (`cod_cent`) REFERENCES `centros` (`cod`) ON UPDATE CASCADE;
+
+ALTER TABLE `centros_consorcios`
+  ADD CONSTRAINT `consorcio_ibfk_1` FOREIGN KEY (`cod_cons`) REFERENCES `consorcios` (`cod`) ON UPDATE CASCADE;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

@@ -117,7 +117,7 @@ class UserController extends Controller
      */
     public function changeUserRole_action()
     {
-        Auth::checkAdminAuthentication();
+        //Auth::checkAdminAuthentication();
         if (Request::post('user_account_upgrade')) {
             // "2" is quick & dirty account type 2, something like "premium user" maybe. you got the idea :)
             UserRoleModel::changeUserRole(2);

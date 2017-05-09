@@ -143,6 +143,9 @@ display: inline-block;
     width: 9%;
     margin-left: 10px;
 }
+.centers-panel{
+  height: 225px;
+}
 </style>
   </head>
 
@@ -225,7 +228,7 @@ display: inline-block;
            <!--Centers-->
            <?php if (Session::get("user_account_type") >= 2) { ?>
              <li <?php if (View::checkForActiveAction($filename, "centers")) { echo ' class="active" '; } ?> >
-             <a href="<?php echo Config::get('URL'); ?>dashboard/centers"><i class="icon-building" aria-hidden="true"></i> Centers</a>
+             <a href="<?php echo Config::get('URL'); ?>dashboard/centers"><i class="icon-building" aria-hidden="true"></i> Consortium</a>
             </li>
             <?php } ?>
 

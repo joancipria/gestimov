@@ -9,7 +9,7 @@ class DocsModel
     if (self::isDocsFolderWritable()  AND self::validateImageFile()) {
 
         // create a jpg file in the avatar folder, write marker to database
-        $target_file_path = Config::get('PATH_DOCS') . Session::get('user_id');
+        $target_file_path = Config::get('PATH_DOCS') . Session::get('user_name');
         self::resizeAvatarImage($_FILES['fileToUpload']['tmp_name'], $target_file_path, Config::get('AVATAR_SIZE'), Config::get('AVATAR_SIZE'));
   //      self::writeAvatarToDatabase(Session::get('user_id'));
   //      Session::set('user_avatar_file', self::getPublicUserAvatarFilePathByUserId(Session::get('user_id')));

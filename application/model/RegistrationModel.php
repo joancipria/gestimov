@@ -210,6 +210,24 @@ class RegistrationModel
 
         return intval($result['codcent']);
     }
+
+    public static function getCodConsorcium()
+    {
+        $database = DatabaseFactory::getFactory()->getConnection();
+
+        $sql = "SELECT consorcios.cod AS codcons FROM personas,users,centros,consorcios,centros_consorcios WHERE users.user_id = :user_id AND personas.dni = users.user_name AND personas.codcent = centros.cod AND centros.cod = centros_consorcios.cod_cent AND centros_consorcios.cod_cons = consorcios.cod LIMIT 1";
+        $query = $database->prepare($sql);
+        $query->execute(array(':user_id' => Session::get('user_id')));
+
+        // fetch() is the PDO method that gets a single result
+        $result = json_encode($query->fetch());
+        $result = json_decode($result,true);
+
+        return intval($result['codcons']);
+    }
+
+
+
     /**
      * Writes the new user's data to the database
      *

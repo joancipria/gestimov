@@ -12,10 +12,12 @@ class UserModel
     Auth::checkTeacherAuthentication();
       $database = DatabaseFactory::getFactory()->getConnection();
       $codcent = RegistrationModel::getCodCent();
+      $myself = Session::get('user_name');
 
-      $sql = "SELECT users.user_id,personas.nom AS nom, personas.ape AS ape,personas.dni AS dni, centros.nom AS nomcent FROM users, personas,centros WHERE users.user_name = personas.dni AND personas.codcent = centros.cod AND centros.cod = :codcent";
+      $sql = "SELECT users.user_id,personas.nom AS nom, personas.ape AS ape,personas.dni AS dni, centros.nom AS nomcent FROM users, personas,centros WHERE users.user_name = personas.dni AND personas.codcent = centros.cod AND centros.cod = :codcent AND users.user_name <> :myself";
       $query = $database->prepare($sql);
-      $query->execute(array(':codcent' => $codcent));
+      $query->execute(array(':codcent' => $codcent, ':myself' => $myself));
+
 
       $all_users_profiles = array();
 
@@ -78,9 +80,155 @@ class UserModel
       $database = DatabaseFactory::getFactory()->getConnection();
       $codcent = RegistrationModel::getCodCent();
 
-      $sql = "SELECT users.user_id,personas.nom AS nom, personas.ape AS ape, centros.nom AS nomcent, docs.foto AS personalfoto FROM users, personas,centros,docs WHERE users.user_name = personas.dni AND personas.codcent = :codcent AND docs.dni = personas.dni";
+      $sql = "SELECT users.user_id,personas.nom AS nom, personas.ape AS ape, centros.nom AS nomcent, docs.foto AS personalfoto FROM users, personas,centros,docs WHERE users.user_name = personas.dni AND personas.codcent = :codcent AND personas.codcent = centros.cod AND docs.dni = personas.dni";
       $query = $database->prepare($sql);
       $query->execute(array(':codcent' => $codcent));
+
+      $all_users_profiles = array();
+
+      foreach ($query->fetchAll() as $user) {
+
+          // all elements of array passed to Filter::XSSFilter for XSS sanitation, have a look into
+          // application/core/Filter.php for more info on how to use. Removes (possibly bad) JavaScript etc from
+          // the user's values
+          array_walk_recursive($user, 'Filter::XSSFilter');
+
+          $all_users_profiles[$user->user_id] = new stdClass();
+          $all_users_profiles[$user->user_id]->user_id = $user->user_id;
+          $all_users_profiles[$user->user_id]->nom = $user->nom;
+          $all_users_profiles[$user->user_id]->ape = $user->ape;
+          $all_users_profiles[$user->user_id]->nomcent = $user->nomcent;
+          $all_users_profiles[$user->user_id]->personalfoto = $user->personalfoto;
+      }
+
+      return $all_users_profiles;
+  }
+
+
+  public static function getMobilitiesOfMyStudents()
+  {
+      Auth::checkTeacherAuthentication();
+      $database = DatabaseFactory::getFactory()->getConnection();
+      $codcent = RegistrationModel::getCodCent();
+
+      $sql = "SELECT users.user_id,personas.nom AS nom, personas.ape AS ape,flujo_personas.fpdni AS dni,personas.pais AS pais, centros.nom AS nomcent, flujo_personas.fpid AS flujo, flujo.FechaSalida AS fechasalida, flujo.FechaLlegada AS fechallegada, flujo.PaisDestino AS dpais, flujo.CiudadDestino AS dciudad FROM users, personas,centros,flujo,flujo_personas WHERE users.user_name = personas.dni AND personas.codcent = :codcent AND personas.codcent = centros.cod  AND personas.dni = flujo_personas.fpdni AND flujo_personas.fpid = flujo.id";
+      $query = $database->prepare($sql);
+      $query->execute(array(':codcent' => $codcent));
+
+      $all_users_profiles = array();
+
+      foreach ($query->fetchAll() as $user) {
+
+          // all elements of array passed to Filter::XSSFilter for XSS sanitation, have a look into
+          // application/core/Filter.php for more info on how to use. Removes (possibly bad) JavaScript etc from
+          // the user's values
+          array_walk_recursive($user, 'Filter::XSSFilter');
+
+          $all_users_profiles[$user->user_id] = new stdClass();
+          $all_users_profiles[$user->user_id]->user_id = $user->user_id;
+          $all_users_profiles[$user->user_id]->nom = $user->nom;
+          $all_users_profiles[$user->user_id]->ape = $user->ape;
+          $all_users_profiles[$user->user_id]->dni = $user->dni;
+          $all_users_profiles[$user->user_id]->pais = $user->pais;
+          $all_users_profiles[$user->user_id]->flujo = $user->flujo;
+          $all_users_profiles[$user->user_id]->fechasalida = $user->fechasalida;
+          $all_users_profiles[$user->user_id]->fechallegada = $user->fechallegada;
+          $all_users_profiles[$user->user_id]->dpais = $user->dpais;
+          $all_users_profiles[$user->user_id]->dciudad = $user->dciudad;
+          $all_users_profiles[$user->user_id]->nomcent = $user->nomcent;
+      }
+
+      return $all_users_profiles;
+  }
+
+
+  public static function getMobilitiesOfMyStudentsConsorcium()
+  {
+      Auth::checkAdminAuthentication();
+      $database = DatabaseFactory::getFactory()->getConnection();
+      $codcons = RegistrationModel::getCodConsorcium();
+
+      $sql = "SELECT users.user_id,personas.nom AS nom, personas.ape AS ape,flujo_personas.fpdni AS dni,personas.pais AS pais, centros.nom AS nomcent, flujo_personas.fpid AS flujo, flujo.FechaSalida AS fechasalida, flujo.FechaLlegada AS fechallegada, flujo.PaisDestino AS dpais, flujo.CiudadDestino AS dciudad FROM users, personas,centros,flujo,flujo_personas,centros_consorcios, consorcios WHERE users.user_name = personas.dni AND personas.codcent = centros.cod AND personas.dni = flujo_personas.fpdni AND flujo_personas.fpid = flujo.id AND centros.cod = centros_consorcios.cod_cent AND centros_consorcios.cod_cons = consorcios.cod AND consorcios.cod = :codcons";
+      $query = $database->prepare($sql);
+      $query->execute(array(':codcons' => $codcons));
+
+      $all_users_profiles = array();
+
+      foreach ($query->fetchAll() as $user) {
+
+          // all elements of array passed to Filter::XSSFilter for XSS sanitation, have a look into
+          // application/core/Filter.php for more info on how to use. Removes (possibly bad) JavaScript etc from
+          // the user's values
+          array_walk_recursive($user, 'Filter::XSSFilter');
+
+          $all_users_profiles[$user->user_id] = new stdClass();
+          $all_users_profiles[$user->user_id]->user_id = $user->user_id;
+          $all_users_profiles[$user->user_id]->nom = $user->nom;
+          $all_users_profiles[$user->user_id]->ape = $user->ape;
+          $all_users_profiles[$user->user_id]->dni = $user->dni;
+          $all_users_profiles[$user->user_id]->pais = $user->pais;
+          $all_users_profiles[$user->user_id]->flujo = $user->flujo;
+          $all_users_profiles[$user->user_id]->fechasalida = $user->fechasalida;
+          $all_users_profiles[$user->user_id]->fechallegada = $user->fechallegada;
+          $all_users_profiles[$user->user_id]->dpais = $user->dpais;
+          $all_users_profiles[$user->user_id]->dciudad = $user->dciudad;
+          $all_users_profiles[$user->user_id]->nomcent = $user->nomcent;
+      }
+
+      return $all_users_profiles;
+  }
+
+
+  public static function getCentersOfMyConsorcium()
+  {
+      $database = DatabaseFactory::getFactory()->getConnection();
+      $codcons = RegistrationModel::getCodConsorcium();
+
+
+
+      $sql = "SELECT centros.cod AS cod ,centros.nom AS nom,centros.tel AS tel, centros.fax AS fax, centros.poblacion AS poblacion, centros.cp AS cp,centros.provincia AS provincia,centros.pais AS pais FROM centros,centros_consorcios,consorcios WHERE centros.cod = centros_consorcios.cod_cent AND centros_consorcios.cod_cons = consorcios.cod";
+      $query = $database->prepare($sql);
+      $query->execute(array(':codcons' => $codcons));
+
+      $all_users_profiles = array();
+
+      foreach ($query->fetchAll() as $center) {
+
+          // all elements of array passed to Filter::XSSFilter for XSS sanitation, have a look into
+          // application/core/Filter.php for more info on how to use. Removes (possibly bad) JavaScript etc from
+          // the user's values
+          array_walk_recursive($center, 'Filter::XSSFilter');
+
+          $all_users_profiles[$center->cod] = new stdClass();
+          $all_users_profiles[$center->cod]->cod = $center->cod;
+          $all_users_profiles[$center->cod]->nom = $center->nom;
+          $all_users_profiles[$center->cod]->tel = $center->tel;
+          $all_users_profiles[$center->cod]->fax = $center->fax;
+          $all_users_profiles[$center->cod]->poblacion = $center->poblacion;
+          $all_users_profiles[$center->cod]->cp = $center->cp;
+          $all_users_profiles[$center->cod]->provincia = $center->provincia;
+          $all_users_profiles[$center->cod]->pais = $center->pais;
+
+
+
+
+      }
+
+      return $all_users_profiles;
+  }
+
+
+
+  public static function getDocumentsOfMyStudentsConsorcium()
+  {
+      Auth::checkAdminAuthentication();
+      $database = DatabaseFactory::getFactory()->getConnection();
+      $codcons = RegistrationModel::getCodConsorcium();
+
+
+      $sql = "SELECT users.user_id,personas.nom AS nom, personas.ape AS ape, centros.nom AS nomcent, docs.foto AS personalfoto FROM users, personas,centros,docs,centros_consorcios,consorcios WHERE users.user_name = personas.dni AND personas.codcent = centros.cod AND docs.dni = personas.dni AND centros.cod = centros_consorcios.cod_cent AND centros_consorcios.cod_cons = consorcios.cod AND consorcios.cod = :codcons";
+      $query = $database->prepare($sql);
+      $query->execute(array(':codcons' => $codcons));
 
       $all_users_profiles = array();
 

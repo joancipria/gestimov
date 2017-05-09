@@ -26,10 +26,11 @@ class DashboardController extends Controller
 
     public function documents()
     {
+      Auth::checkNoStudentAuthentication();
       if (Session::get("user_account_type") >= 7) {
         Auth::checkAdminAuthentication();
         $this->View->render('dashboard/documents', array(
-                'users' => UserModel::getDocumentsOfAllUsers()),'sidenavbar','dashboardfooter'
+                'users' => UserModel::getDocumentsOfMyStudentsConsorcium()),'sidenavbar','dashboardfooter'
         );
       }
       if (Session::get("user_account_type") == 2){
@@ -65,15 +66,27 @@ class DashboardController extends Controller
 
     public function mobilities()
     {
-      Auth::checkAdminAuthentication();
-      $this->View->render('dashboard/mobilities',null,'sidenavbar','dashboardfooter');
+      Auth::checkNoStudentAuthentication();
+      if (Session::get("user_account_type") >= 7) {
+        Auth::checkAdminAuthentication();
+        $this->View->render('dashboard/mobilities', array(
+                'users' => UserModel::getMobilitiesOfMyStudentsConsorcium()),'sidenavbar','dashboardfooter'
+        );
+      }
+      if (Session::get("user_account_type") == 2){
+        Auth::checkTeacherAuthentication();
+        $this->View->render('dashboard/mobilities', array(
+                'users' => UserModel::getMobilitiesOfMyStudents()),'sidenavbar','dashboardfooter'
+        );
+      }
     }
 
     public function centers()
     {
-      Auth::checkAdminAuthentication();
-      $this->View->render('dashboard/centers',null,'sidenavbar','dashboardfooter');
-    }
+      Auth::checkNoStudentAuthentication();
+      $this->View->render('dashboard/centers', array(
+              'users' => UserModel::getCentersOfMyConsorcium()),'sidenavbar','dashboardfooter'
+      );    }
 
     public function flows()
     {
@@ -109,9 +122,9 @@ class DashboardController extends Controller
         $registration_successful = DocsModel::uploadFile();
 
         if ($registration_successful) {
-            Redirect::to('login/index');
+            Redirect::to('dashboard/mydocuments');
         } else {
-            Redirect::to('register/index');
+            Redirect::to('dashboard/mydocuments');
         }
     }
 }
