@@ -1,256 +1,278 @@
 <!DOCTYPE html>
-<html lang="en"><head>
-<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- Meta, title, CSS, favicons, etc. -->
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <link rel="shortcut icon" href="http://www.jasny.net/bootstrap/assets/ico/favicon.png">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Admin Panel | GMOV+</title>
+    <title>Gestimov+ | Dashboard </title>
 
-    <!-- Bootstrap core CSS -->
-    <link href="<?php echo Config::get('URL'); ?>css/bootstrap.min.css" rel="stylesheet">
-    <link href="<?php echo Config::get('URL'); ?>css/jasny-bootstrap.css" rel="stylesheet">
-    <link rel="stylesheet" href="<?php echo Config::get('URL'); ?>css/font-awesome.min.css">
+    <!-- Bootstrap -->
+    <link href="<?php echo Config::get('URL'); ?>vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="<?php echo Config::get('URL'); ?>vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <!-- iCheck -->
+    <link href="<?php echo Config::get('URL'); ?>vendors/iCheck/skins/flat/green.css" rel="stylesheet">
+    <!-- bootstrap-progressbar -->
+    <link href="<?php echo Config::get('URL'); ?>vendors/bootstrap-progressbar/css/bootstrap-progressbar-3.3.4.min.css" rel="stylesheet">
+    <!-- jVectorMap -->
+    <link href="<?php echo Config::get('URL'); ?>css/maps/jquery-jvectormap-2.0.3.css" rel="stylesheet"/>
 
-    <!-- Custom styles for this template -->
-    <link href="<?php echo Config::get('URL'); ?>css/navmenu.css" rel="stylesheet">
+    <!-- Custom Theme Style -->
+    <link href="<?php echo Config::get('URL'); ?>build/css/custom.css" rel="stylesheet">
 
-    <!-- Just for debugging purposes. Don't actually copy this line! -->
-    <!--[if lt IE 9]><script src="../../docs-assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
-
-    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
-    <style media="screen">
-    @media only screen and (min-width: 992px) {
-
-    body {
-    padding: 0 0 0 200px;
-}
-.toolbar-button{
-    display: inline;
-    float: right;
-    margin-right: 20px;
-}
+    <!-- Datatables -->
+    <link href="https://cdn.datatables.net/1.10.15/css/dataTables.bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.datatables.net/buttons/1.3.1/css/buttons.bootstrap.min.css" rel="stylesheet">
 
 
-}
-      #section-title:first-letter {
-        text-transform:capitalize;
-      }
-      .navbar-default {
-    background-color: #3498DB;
-    border-color: #e7e7e7;
-    color: white;
-}
-.navbar-default .navbar-brand {
-    color: #777;
-}
-.navbar-default .navbar-brand:hover {
-    color: #777;
-}
 
-.navmenu, .navbar-offcanvas {
-    width: auto;
-}
-.disconnect-button{
-  position: absolute;
-  bottom: 5%;
-  left: 5%;
-}
-.avatar{
-  width: 15%;
-}
-.navmenu-default .navmenu-nav > li > a, .navbar-default .navbar-offcanvas .navmenu-nav > li > a {
-    color: #337ab7;
-}
-.nav > li .active > a:focus, .navbar-default .navbar-offcanvas .navmenu-nav > .active > a:focus {
-    color: #337ab7;
-    background-color: #eeeeee;
-}
-.navmenu-default .navmenu-nav > li > a:hover, .navbar-default .navbar-offcanvas .navmenu-nav > li > a:hover, .navmenu-default .navmenu-nav > li > a:focus, .navbar-default .navbar-offcanvas .navmenu-nav > li > a:focus {
-    color: #23527c;
-    background-color: #eeeeee;
-}
-.navbar-default {
-    background-color: #f8f8f8;
-    border-color: #e7e7e7;
-}
-.nav > li {
-    border-bottom: 1px solid #e7e7e7;
-}
-.navmenu-default .navmenu-nav > .active > a, .navbar-default .navbar-offcanvas .navmenu-nav > .active > a, .navmenu-default .navmenu-nav > .active > a:hover, .navbar-default .navbar-offcanvas .navmenu-nav > .active > a:hover, .navmenu-default .navmenu-nav > .active > a:focus, .navbar-default .navbar-offcanvas .navmenu-nav > .active > a:focus {
-    color: #337ab7;
-}
-.dropdown-menu > .active > a, .dropdown-menu > .active > a:focus, .dropdown-menu > .active > a:hover {
-padding-left: 37px;
-}
-.page-header {
-    margin: 80px 0 20px;
-}
-.page-header h2{
-display: inline-block;
-}
-#wpadminbar {
-    direction: ltr;
-    color: #337ab7;
-    height: auto;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    min-width: 600px;
-    z-index: 99999;
-    background: #f8f8f8;
-    border: 1px solid #e7e7e7;
-}
-@media screen and (max-width: 992px) {
-  #wpadminbar {
-    display: none;
-}
-.page-header {
-    margin: 40px 0 20px;
-}
-}
-.navbar-login
-{
-    width: 305px;
-    padding: 10px;
-    padding-bottom: 0px;
-}
 
-.navbar-login-session
-{
-    padding: 10px;
-    padding-bottom: 0px;
-    padding-top: 0px;
-}
-
-.icon-size
-{
-    font-size: 87px;
-}
-.navbar-right {
-    float: right !important;
-    margin-right: 0px;
-}
-
-.top-navbar-brand-img {
-    width: 9%;
-    margin-left: 10px;
-}
-.centers-panel{
-  height: 225px;
-}
-</style>
   </head>
+  <body class="nav-md">
+    <div class="container body">
+      <div class="main_container">
+        <div class="col-md-3 left_col menu_fixed">
+          <div class="left_col scroll-view">
+            <div class="navbar nav_title" style="border: 0;">
+              <a href="index.html" class="site_title"><i class="fa fa-paw"></i> <span>GestiMov+</span></a>
+            </div>
 
-  <body>
-    <div id="wpadminbar" class="ltr">
-      <img class="top-navbar-brand-img" src="<?php echo Config::get('URL'); ?>img/logo.png" alt="">
-      <ul class="nav navbar-nav navbar-right">
-    <li class="dropdown">
-        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-            <i class="icon-user" aria-hidden="true"></i>
-            <strong><?php echo Session::get('user_name'); ?></strong>
-            <i class="icon-caret-down" aria-hidden="true"></i>
-        </a>
-        <ul class="dropdown-menu">
-            <li>
-                <div class="navbar-login">
-                    <div class="row">
-                        <div class="col-lg-4">
-                            <p class="text-center">
-                                <img src="<?php echo Session::get('user_gravatar_image_url'); ?>" alt="">
-                            </p>
-                        </div>
-                        <div class="col-lg-8">
-                            <p class="text-left"><strong>Salman Khan</strong></p>
-                            <p class="text-left small"><?php echo Session::get('user_email'); ?></p>
-                            <p class="text-left">
-                                <a target="_blank" href="<?= Config::get('URL') . 'dashboard/showProfile/' . Session::get('user_id'); ?>" class="btn btn-primary btn-block btn-sm">Profile</a>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </li>
-            <li class="divider navbar-login-session-bg"></li>
-             <li><a href="#">Account Settings <span class="glyphicon glyphicon-cog pull-right"></span></a></li>
-<li class="divider"></li>
-<li><a href="#">User stats <span class="glyphicon glyphicon-stats pull-right"></span></a></li>
-<li class="divider"></li>
-<li><a href="#">Messages <span class="badge pull-right"> 42 </span></a></li>
-<li class="divider"></li>
-<li><a href="#">Favourites Snippets <span class="glyphicon glyphicon-heart pull-right"></span></a></li>
-<li class="divider"></li>
-<li><a href="/login/logout">Sign Out <i class="icon-sign-out" aria-hidden="true"></i></a></li>
-        </ul>
-    </li>
-</ul>
-</div>
-    <div class="navmenu navmenu-default navmenu-fixed-left offcanvas-sm">
-      <a class="navmenu-brand visible-md visible-lg" href="#"><br><br></a>
-      <ul class="nav navmenu-nav">
-        <li<?php if (View::checkForActiveAction($filename, "index")) { echo ' class="active" '; } ?>><a href="/dashboard/index"><i class="icon-home" aria-hidden="true"></i> Principal</a></li>
+            <div class="clearfix"></div>
 
-        <!--My Documents-->
-        <?php if (Session::get("user_account_type") == 1) { ?>
-          <li <?php if (View::checkForActiveAction($filename, "mydocuments")) { echo ' class="active" '; } ?> >
-          <a href="<?php echo Config::get('URL'); ?>dashboard/mydocuments/<?php echo Session::get('user_id')?>"><i class="icon-file-text" aria-hidden="true"></i> My Documents</a>
-         </li>
-         <?php } ?>
+            <!-- menu profile quick info -->
+            <div class="profile">
+              <div class="profile_pic">
+                <img src="<?php echo Session::get('user_gravatar_image_url'); ?>" alt="..." class="img-circle profile_img">
+              </div>
+              <div class="profile_info">
+                <span>Welcome,</span>
+                <h2><?php echo Session::get('user_name'); ?></h2>
+              </div>
+            </div>
+            <!-- /menu profile quick info -->
 
-         <!--Documents-->
-         <?php if (Session::get("user_account_type") >= 2) { ?>
-           <li <?php if (View::checkForActiveAction($filename, "documents")) { echo ' class="active" '; } ?> >
-           <a href="<?php echo Config::get('URL'); ?>dashboard/documents"><i class="icon-file-text" aria-hidden="true"></i> Documents</a>
-          </li>
-          <?php } ?>
+            <br />
 
-         <!--Students-->
-         <?php if (Session::get("user_account_type") == 2) { ?>
-           <li <?php if (View::checkForActiveAction($filename, "students")) { echo ' class="active" '; } ?> >
-           <a href="<?php echo Config::get('URL'); ?>dashboard/students"><i class="icon-user" aria-hidden="true"></i> Students</a>
-          </li>
-          <?php } ?>
+            <!-- sidebar menu -->
+            <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
+              <div class="menu_section">
+                <h3>General</h3>
+                <ul class="nav side-menu">
+                  <li<?php if (View::checkForActiveAction($filename, "index")) { echo ' class="active" '; } ?>><a href="/dashboard/index"><i class="fa fa-home"></i> Home<span class="label label-success pull-right"></span></a></li>
 
-          <!--Mobilities-->
-          <?php if (Session::get("user_account_type") >= 2) { ?>
-            <li <?php if (View::checkForActiveAction($filename, "mobilities")) { echo ' class="active" '; } ?> >
-            <a href="<?php echo Config::get('URL'); ?>dashboard/mobilities"><i class="icon-flag" aria-hidden="true"></i> Mobilities</a>
-           </li>
-           <?php } ?>
+                  <!--My Documents-->
+                  <?php if (Session::get("user_account_type") == 1) { ?>
+                    <li <?php if (View::checkForActiveAction($filename, "mydocuments")) { echo ' class="active" '; } ?> >
+                    <a href="<?php echo Config::get('URL'); ?>dashboard/mydocuments/<?php echo Session::get('user_id')?>"><i class="fa fa-file-text-o"></i> My Documents<span class="label label-success pull-right"></span></a>
+                   </li>
+                   <?php } ?>
 
-           <!--Centers-->
-           <?php if (Session::get("user_account_type") >= 2) { ?>
-             <li <?php if (View::checkForActiveAction($filename, "centers")) { echo ' class="active" '; } ?> >
-             <a href="<?php echo Config::get('URL'); ?>dashboard/centers"><i class="icon-building" aria-hidden="true"></i> Consortium</a>
-            </li>
-            <?php } ?>
+                   <!--Documents-->
+                   <?php if (Session::get("user_account_type") >= 2) { ?>
+                     <li <?php if (View::checkForActiveAction($filename, "documents")) { echo ' class="active" '; } ?> >
+                     <a href="<?php echo Config::get('URL'); ?>dashboard/documents"><i class="fa fa-file-text-o"></i> Documents<span class="label label-success pull-right"></span></a>
+                    </li>
+                    <?php } ?>
 
-          <!--Users-->
-          <?php if (Session::get("user_account_type") >= 7) { ?>
-          <li <?php if (View::checkForActiveAction($filename, "users")) { echo ' class="active open" '; } ?> class="dropdown <?php if (View::checkForActiveAction($filename, "showProfile")) { echo 'open'; } ?>">
-          <a href="<?php echo Config::get('URL'); ?>dashboard/users"><i class="icon-user" aria-hidden="true"></i> Users</a>
-        </li>
-           <?php } ?>
+                   <!--Students-->
+                   <?php if (Session::get("user_account_type") == 2) { ?>
+                     <li <?php if (View::checkForActiveAction($filename, "students")) { echo ' class="active" '; } ?> >
+                     <a href="<?php echo Config::get('URL'); ?>dashboard/students"><i class="fa fa-graduation-cap"></i> Students<span class="label label-success pull-right"></span></a>
+                    </li>
+                    <?php } ?>
 
-           <!--Flows-->
-           <?php if (Session::get("user_account_type") >= 7) { ?>
-             <li <?php if (View::checkForActiveAction($filename, "flows")) { echo ' class="active" '; } ?> >
-             <a href="<?php echo Config::get('URL'); ?>dashboard/flows"><i class="icon-exchange" aria-hidden="true"></i> Flows</a>
-            </li>
-            <?php } ?>
-      </ul>
-    </div>
+                    <!--Users-->
+                    <?php if (Session::get("user_account_type") >= 7) { ?>
+                    <li <?php if (View::checkForActiveAction($filename, "users")) { echo ' class="active open" '; } ?> class="dropdown <?php if (View::checkForActiveAction($filename, "showProfile")) { echo 'open'; } ?>">
+                    <a href="<?php echo Config::get('URL'); ?>dashboard/users"><i class="fa fa-users"></i> Users<span class="label label-success pull-right"></span></a>
+                  </li>
+                     <?php } ?>
 
-    <div class="navbar navbar-default navbar-fixed-top hidden-md hidden-lg">
-      <button type="button" class="navbar-toggle" data-toggle="offcanvas" data-target=".navmenu">
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
+                    <!--Mobilities-->
+                    <?php if (Session::get("user_account_type") >= 2) { ?>
+                      <li <?php if (View::checkForActiveAction($filename, "mobilities")) { echo ' class="active" '; } ?> >
+                      <a href="<?php echo Config::get('URL'); ?>dashboard/mobilities"><i class="fa fa-flag"></i></i> Mobilities<span class="label label-success pull-right"></span></a>
+                     </li>
+                     <?php } ?>
+
+                     <!--Centers-->
+                     <?php if (Session::get("user_account_type") >= 2) { ?>
+                       <li <?php if (View::checkForActiveAction($filename, "centers")) { echo ' class="active" '; } ?> >
+                       <a href="<?php echo Config::get('URL'); ?>dashboard/centers"><i class="fa fa-building"></i> Consortium<span class="label label-success pull-right"></span></a>
+                      </li>
+                      <?php } ?>
+
+
+                     <!--Flows-->
+                     <?php if (Session::get("user_account_type") >= 7) { ?>
+                       <li <?php if (View::checkForActiveAction($filename, "flows")) { echo ' class="active" '; } ?> >
+                       <a href="<?php echo Config::get('URL'); ?>dashboard/flows"><i class="fa fa-exchange"></i> Flows<span class="label label-success pull-right"></span></a>
+                      </li>
+                      <?php } ?>
+
+                </ul>
+              </div>
+              <div class="menu_section">
+                <h3>Live On</h3>
+                <ul class="nav side-menu">
+                  <li><a><i class="fa fa-bug"></i> Additional Pages <span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                      <li><a href="e_commerce.html">E-commerce</a></li>
+                      <li><a href="projects.html">Projects</a></li>
+                      <li><a href="project_detail.html">Project Detail</a></li>
+                      <li><a href="contacts.html">Contacts</a></li>
+                      <li><a href="profile.html">Profile</a></li>
+                    </ul>
+                  </li>
+                  <li><a><i class="fa fa-windows"></i> Extras <span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                      <li><a href="page_403.html">403 Error</a></li>
+                      <li><a href="page_404.html">404 Error</a></li>
+                      <li><a href="page_500.html">500 Error</a></li>
+                      <li><a href="plain_page.html">Plain Page</a></li>
+                      <li><a href="login.html">Login Page</a></li>
+                      <li><a href="pricing_tables.html">Pricing Tables</a></li>
+                    </ul>
+                  </li>
+                  <li><a><i class="fa fa-sitemap"></i> Multilevel Menu <span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                        <li><a href="#level1_1">Level One</a>
+                        <li><a>Level One<span class="fa fa-chevron-down"></span></a>
+                          <ul class="nav child_menu">
+                            <li class="sub_menu"><a href="level2.html">Level Two</a>
+                            </li>
+                            <li><a href="#level2_1">Level Two</a>
+                            </li>
+                            <li><a href="#level2_2">Level Two</a>
+                            </li>
+                          </ul>
+                        </li>
+                        <li><a href="#level1_2">Level One</a>
+                        </li>
+                    </ul>
+                  </li>
+                  <li><a href="javascript:void(0)"><i class="fa fa-laptop"></i> Landing Page <span class="label label-success pull-right">Coming Soon</span></a></li>
+                </ul>
+              </div>
+
+            </div>
+            <!-- /sidebar menu -->
+
+            <!-- /menu footer buttons -->
+            <div class="sidebar-footer hidden-small">
+              <a data-toggle="tooltip" data-placement="top" title="Settings">
+                <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+              </a>
+              <a data-toggle="tooltip" data-placement="top" title="FullScreen">
+                <span class="glyphicon glyphicon-fullscreen" aria-hidden="true"></span>
+              </a>
+              <a data-toggle="tooltip" data-placement="top" title="Lock">
+                <span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span>
+              </a>
+              <a href="/login/logout" data-toggle="tooltip" data-placement="top" title="Logout">
+                <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
+              </a>
+            </div>
+            <!-- /menu footer buttons -->
+          </div>
+        </div>
+
+        <!-- top navigation -->
+        <div class="top_nav">
+          <div class="nav_menu">
+            <nav class="" role="navigation">
+              <div class="nav toggle">
+                <a id="menu_toggle"><i class="fa fa-bars"></i></a>
+              </div>
+
+              <ul class="nav navbar-nav navbar-right">
+                <li class="">
+                  <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                    <img src="<?php echo Session::get('user_gravatar_image_url'); ?>" alt=""><?php echo Session::get('user_name'); ?>
+                    <span class=" fa fa-angle-down"></span>
+                  </a>
+                  <ul class="dropdown-menu dropdown-usermenu pull-right">
+                    <li><a href="<?= Config::get('URL') . 'dashboard/showProfile/' . Session::get('user_id'); ?>"> Profile</a></li>
+                    <li>
+                      <a href="javascript:;">
+                        <span class="badge bg-red pull-right">50%</span>
+                        <span>Settings</span>
+                      </a>
+                    </li>
+                    <li><a href="javascript:;">Help</a></li>
+                    <li><a href="/login/logout"><i class="fa fa-sign-out pull-right"></i> Log Out</a></li>
+                  </ul>
+                </li>
+
+                <li role="presentation" class="dropdown">
+                  <a href="javascript:;" class="dropdown-toggle info-number" data-toggle="dropdown" aria-expanded="false">
+                    <i class="fa fa-envelope-o"></i>
+                    <span class="badge bg-green">6</span>
+                  </a>
+                  <ul id="menu1" class="dropdown-menu list-unstyled msg_list" role="menu">
+                    <li>
+                      <a>
+                        <span class="image"><img src="images/img.jpg" alt="Profile Image" /></span>
+                        <span>
+                          <span>John Smith</span>
+                          <span class="time">3 mins ago</span>
+                        </span>
+                        <span class="message">
+                          Film festivals used to be do-or-die moments for movie makers. They were where...
+                        </span>
+                      </a>
+                    </li>
+                    <li>
+                      <a>
+                        <span class="image"><img src="images/img.jpg" alt="Profile Image" /></span>
+                        <span>
+                          <span>John Smith</span>
+                          <span class="time">3 mins ago</span>
+                        </span>
+                        <span class="message">
+                          Film festivals used to be do-or-die moments for movie makers. They were where...
+                        </span>
+                      </a>
+                    </li>
+                    <li>
+                      <a>
+                        <span class="image"><img src="images/img.jpg" alt="Profile Image" /></span>
+                        <span>
+                          <span>John Smith</span>
+                          <span class="time">3 mins ago</span>
+                        </span>
+                        <span class="message">
+                          Film festivals used to be do-or-die moments for movie makers. They were where...
+                        </span>
+                      </a>
+                    </li>
+                    <li>
+                      <a>
+                        <span class="image"><img src="images/img.jpg" alt="Profile Image" /></span>
+                        <span>
+                          <span>John Smith</span>
+                          <span class="time">3 mins ago</span>
+                        </span>
+                        <span class="message">
+                          Film festivals used to be do-or-die moments for movie makers. They were where...
+                        </span>
+                      </a>
+                    </li>
+                    <li>
+                      <div class="text-center">
+                        <a>
+                          <strong>See All Alerts</strong>
+                          <i class="fa fa-angle-right"></i>
+                        </a>
+                      </div>
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+            </nav>
+          </div>
+        </div>
+        <!-- /top navigation -->

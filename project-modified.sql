@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.6.5.2
--- https://www.phpmyadmin.net/
+-- version 4.0.10deb1
+-- http://www.phpmyadmin.net
 --
--- Servidor: 127.0.0.1
--- Tiempo de generación: 03-02-2017 a las 23:48:25
--- Versión del servidor: 10.1.21-MariaDB
--- Versión de PHP: 5.6.30
+-- Servidor: localhost
+-- Tiempo de generación: 12-05-2017 a las 14:10:17
+-- Versión del servidor: 5.5.54-0ubuntu0.14.04.1
+-- Versión de PHP: 5.5.9-1ubuntu4.21
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -14,7 +14,7 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
+/*!40101 SET NAMES utf8 */;
 
 --
 -- Base de datos: `huge`
@@ -26,17 +26,18 @@ SET time_zone = "+00:00";
 -- Estructura de tabla para la tabla `centros`
 --
 
-CREATE TABLE `centros` (
+CREATE TABLE IF NOT EXISTS `centros` (
   `cod` int(8) NOT NULL,
-  `nom` varchar(50) NOT NULL,
-  `direccion` varchar(60) NOT NULL,
-  `poblacion` varchar(30) NOT NULL,
+  `nom` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
+  `direccion` varchar(60) COLLATE utf8_unicode_ci NOT NULL,
+  `poblacion` varchar(30) COLLATE utf8_unicode_ci NOT NULL,
   `cp` int(5) NOT NULL,
-  `provincia` varchar(30) NOT NULL,
-  `pais` varchar(30) NOT NULL,
+  `provincia` varchar(30) COLLATE utf8_unicode_ci NOT NULL,
+  `pais` varchar(30) COLLATE utf8_unicode_ci NOT NULL,
   `tel` int(9) NOT NULL,
-  `fax` int(9) NOT NULL
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `fax` int(9) NOT NULL,
+  PRIMARY KEY (`cod`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Volcado de datos para la tabla `centros`
@@ -50,28 +51,68 @@ INSERT INTO `centros` (`cod`, `nom`, `direccion`, `poblacion`, `cp`, `provincia`
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `centros_consorcios`
+--
+
+CREATE TABLE IF NOT EXISTS `centros_consorcios` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `cod_cent` int(8) NOT NULL,
+  `cod_cons` int(8) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `centro_ibfk_1` (`cod_cent`),
+  KEY `consorcio_ibfk_1` (`cod_cons`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=4 ;
+
+--
+-- Volcado de datos para la tabla `centros_consorcios`
+--
+
+INSERT INTO `centros_consorcios` (`id`, `cod_cent`, `cod_cons`) VALUES
+(1, 46001199, 1),
+(2, 46018692, 1),
+(3, 46025040, 2);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `consorcios`
+--
+
+CREATE TABLE IF NOT EXISTS `consorcios` (
+  `cod` int(8) NOT NULL AUTO_INCREMENT,
+  `nom` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
+  PRIMARY KEY (`cod`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=3 ;
+
+--
+-- Volcado de datos para la tabla `consorcios`
+--
+
+INSERT INTO `consorcios` (`cod`, `nom`) VALUES
+(1, 'L''Alqueria Projectes Educatius'),
+(2, 'La Ribera Movilitat');
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `docs`
 --
 
-CREATE TABLE `docs` (
+CREATE TABLE IF NOT EXISTS `docs` (
   `dni` varchar(9) COLLATE utf8_unicode_ci NOT NULL COMMENT 'user''s name, unique',
-  `foto` varchar(50) DEFAULT NULL,
-  `dnidoc` varchar(50) DEFAULT NULL,
-  `sanitaria` varchar(50) DEFAULT NULL,
-  `curriculum` varchar(50) DEFAULT NULL,
-  `vfoto` enum('si','no') NOT NULL DEFAULT 'no',
-  `vdnidoc` enum('si','no') NOT NULL DEFAULT 'no',
-  `vsanitaria` enum('si','no') NOT NULL DEFAULT 'no',
-  `vcurriculum` enum('si','no') NOT NULL DEFAULT 'no'
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `doc_dni` tinyint(1) NOT NULL DEFAULT '0' COMMENT '1 if user has the file, 0 if not',
+  `doc_foto` tinyint(1) NOT NULL DEFAULT '0' COMMENT '1 if user has the file, 0 if not',
+  `doc_sanitaria` tinyint(1) NOT NULL DEFAULT '0' COMMENT '1 if user has the file, 0 if not',
+  `doc_cv` tinyint(1) NOT NULL DEFAULT '0' COMMENT '1 if user has the file, 0 if not',
+  `doc_banco` tinyint(1) NOT NULL DEFAULT '0' COMMENT '1 if user has the file, 0 if not',
+  `doc_carta` tinyint(1) NOT NULL DEFAULT '0' COMMENT '1 if user has the file, 0 if not',
+  `doc_appform` tinyint(1) NOT NULL DEFAULT '0' COMMENT '1 if user has the file, 0 if not',
+  `doc_salida` tinyint(1) NOT NULL DEFAULT '0' COMMENT '1 if user has the file, 0 if not',
+  PRIMARY KEY (`dni`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
---
--- Volcado de datos para la tabla `docs`
---
 
-INSERT INTO `docs` (`dni`, `foto`, `dnidoc`, `sanitaria`, `curriculum`, `vfoto`, `vdnidoc`, `vsanitaria`, `vcurriculum`) VALUES
-('11122233E', './docs/foto/11122233Efoto.jpg', NULL, NULL, NULL, 'si', 'no', 'no', 'no'),
-('85212369W', '85212369W', NULL, NULL, NULL, 'no', 'no', 'no', 'no');
+
 
 -- --------------------------------------------------------
 
@@ -79,13 +120,14 @@ INSERT INTO `docs` (`dni`, `foto`, `dnidoc`, `sanitaria`, `curriculum`, `vfoto`,
 -- Estructura de tabla para la tabla `flujo`
 --
 
-CREATE TABLE `flujo` (
-  `id` varchar(10) NOT NULL,
+CREATE TABLE IF NOT EXISTS `flujo` (
+  `id` varchar(10) COLLATE utf8_unicode_ci NOT NULL,
   `FechaSalida` date NOT NULL,
   `FechaLlegada` date NOT NULL,
-  `PaisDestino` varchar(30) NOT NULL,
-  `CiudadDestino` varchar(50) NOT NULL
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `PaisDestino` varchar(30) COLLATE utf8_unicode_ci NOT NULL,
+  `CiudadDestino` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Volcado de datos para la tabla `flujo`
@@ -102,36 +144,20 @@ INSERT INTO `flujo` (`id`, `FechaSalida`, `FechaLlegada`, `PaisDestino`, `Ciudad
 -- Estructura de tabla para la tabla `flujo_personas`
 --
 
-CREATE TABLE `flujo_personas` (
-  `fpdni` varchar(9) NOT NULL,
-  `fpid` varchar(10) NOT NULL,
-  `Activo` enum('si','no') DEFAULT NULL
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+CREATE TABLE IF NOT EXISTS `flujo_personas` (
+  `fpdni` varchar(9) COLLATE utf8_unicode_ci NOT NULL,
+  `fpid` varchar(10) COLLATE utf8_unicode_ci NOT NULL,
+  `Activo` enum('si','no') COLLATE utf8_unicode_ci DEFAULT NULL,
+  PRIMARY KEY (`fpdni`,`fpid`),
+  KEY `fk_fpid` (`fpid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Volcado de datos para la tabla `flujo_personas`
 --
 
 INSERT INTO `flujo_personas` (`fpdni`, `fpid`, `Activo`) VALUES
-('11122233E', 'IT1', 'si'),
 ('85212369W', 'IT1', 'si');
-
-
-
-
-CREATE TABLE `centros_consorcios` (
-  `id` int(10) NOT NULL AUTO_INCREMENT,
-  `cod_cent` int(8) NOT NULL,
-  `cod_cons` int(8) NOT NULL,
-  PRIMARY KEY ( `id` )
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
-CREATE TABLE `consorcios` (
-  `cod` int(8) NOT NULL AUTO_INCREMENT,
-  `nom` varchar(50) NOT NULL,
-  PRIMARY KEY ( `cod` )
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
 
 -- --------------------------------------------------------
 
@@ -139,20 +165,21 @@ CREATE TABLE `consorcios` (
 -- Estructura de tabla para la tabla `menores`
 --
 
-CREATE TABLE `menores` (
+CREATE TABLE IF NOT EXISTS `menores` (
   `dni` varchar(9) COLLATE utf8_unicode_ci NOT NULL COMMENT 'user''s name, unique',
-  `nompadre` varchar(20) NOT NULL,
-  `apepadre` varchar(50) NOT NULL,
-  `dnip` varchar(9) NOT NULL,
+  `nompadre` varchar(20) COLLATE utf8_unicode_ci NOT NULL,
+  `apepadre` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
+  `dnip` varchar(9) COLLATE utf8_unicode_ci NOT NULL,
   `telefono` int(9) NOT NULL,
-  `email` varchar(50) NOT NULL,
-  `direccion` varchar(40) NOT NULL,
-  `poblacion` varchar(20) NOT NULL,
+  `email` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
+  `direccion` varchar(40) COLLATE utf8_unicode_ci NOT NULL,
+  `poblacion` varchar(20) COLLATE utf8_unicode_ci NOT NULL,
   `cp` int(5) NOT NULL,
-  `provincia` varchar(30) NOT NULL,
-  `pais` varchar(20) NOT NULL,
-  `fechanac` date NOT NULL
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `provincia` varchar(30) COLLATE utf8_unicode_ci NOT NULL,
+  `pais` varchar(20) COLLATE utf8_unicode_ci NOT NULL,
+  `fechanac` date NOT NULL,
+  PRIMARY KEY (`dni`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Volcado de datos para la tabla `menores`
@@ -168,35 +195,36 @@ INSERT INTO `menores` (`dni`, `nompadre`, `apepadre`, `dnip`, `telefono`, `email
 -- Estructura de tabla para la tabla `personas`
 --
 
-CREATE TABLE `personas` (
-  `nom` varchar(15) NOT NULL DEFAULT 'Empty',
-  `ape` varchar(50) NOT NULL DEFAULT 'Empty',
+CREATE TABLE IF NOT EXISTS `personas` (
+  `nom` varchar(15) COLLATE utf8_unicode_ci NOT NULL DEFAULT 'Empty',
+  `ape` varchar(50) COLLATE utf8_unicode_ci NOT NULL DEFAULT 'Empty',
   `dni` varchar(9) COLLATE utf8_unicode_ci NOT NULL,
-  `telefono` int(9) NOT NULL DEFAULT 000000000,
-  `direccion` varchar(40) NOT NULL DEFAULT 'Empty',
-  `poblacion` varchar(20) NOT NULL DEFAULT 'Empty',
-  `cp` int(5) NOT NULL DEFAULT 00000,
-  `provincia` varchar(30) NOT NULL DEFAULT 'Empty',
-  `pais` varchar(20) NOT NULL DEFAULT 'Empty',
+  `telefono` int(9) NOT NULL DEFAULT '0',
+  `direccion` varchar(40) COLLATE utf8_unicode_ci NOT NULL DEFAULT 'Empty',
+  `poblacion` varchar(20) COLLATE utf8_unicode_ci NOT NULL DEFAULT 'Empty',
+  `cp` int(5) NOT NULL DEFAULT '0',
+  `provincia` varchar(30) COLLATE utf8_unicode_ci NOT NULL DEFAULT 'Empty',
+  `pais` varchar(20) COLLATE utf8_unicode_ci NOT NULL DEFAULT 'Empty',
   `fechanac` date NOT NULL DEFAULT '1200-09-05',
-  `codcent` int(8) NOT NULL
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `codcent` int(8) NOT NULL,
+  PRIMARY KEY (`dni`),
+  KEY `codcent` (`codcent`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Volcado de datos para la tabla `personas`
 --
 
 INSERT INTO `personas` (`nom`, `ape`, `dni`, `telefono`, `direccion`, `poblacion`, `cp`, `provincia`, `pais`, `fechanac`, `codcent`) VALUES
-('Paco', 'Llopis Martinez', '11122233E', 614002351,  'Calle La Reina 10-3-6', 'Xativa', 46800, 'Valencia', 'Espanya', '1999-02-15', 46018692),
-('Antonio', 'Rosado Aguado', '85212369W', 987987987, 'Calle Mº Concepción Nº32', 'Benicull', 46800, 'q', 'q', '1998-12-12', 46001199);
-
--- --------------------------------------------------------
-
+('Paco', 'Llopis Martinez', '11122233E', 614002351, 'Calle La Reina 10-3-6', 'Xativa', 46800, 'Valencia', 'Espanya', '1999-02-15', 46018692),
+('Empty', 'Empty', '12345678E', 0, 'Empty', 'Empty', 0, 'Empty', 'Empty', '1200-09-05', 46025040),
+('Joan', 'Moreno Teodoro', '20863920E', 622451790, 'Carrer San Isidre 20', 'Algemesí', 46800, 'Valencia', 'Espanya', '1997-05-03', 46018692),
+('Antonio', 'Rosado Aguado', '85212369W', 987987987, 'Calle Mº Concepción Nº32', 'Benicull', 46800, 'Valencia', 'Espanya', '1998-12-12', 46018692);
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `usuarios`
+-- Estructura de tabla para la tabla `users`
 --
 
 CREATE TABLE IF NOT EXISTS `users` (
@@ -222,73 +250,28 @@ CREATE TABLE IF NOT EXISTS `users` (
   PRIMARY KEY (`user_id`),
   UNIQUE KEY `user_name` (`user_name`),
   UNIQUE KEY `user_email` (`user_email`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='user data' AUTO_INCREMENT=8 ;
-
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='user data' AUTO_INCREMENT=9 ;
 
 --
--- Volcado de datos para la tabla `usuarios`
+-- Volcado de datos para la tabla `users`
 --
 
 INSERT INTO `users` (`user_id`, `session_id`, `user_name`, `user_password_hash`, `user_email`, `user_active`, `user_deleted`, `user_account_type`, `user_has_avatar`, `user_remember_me_token`, `user_creation_timestamp`, `user_suspension_timestamp`, `user_last_login_timestamp`, `user_failed_logins`, `user_last_failed_login`, `user_activation_hash`, `user_password_reset_hash`, `user_password_reset_timestamp`, `user_provider_type`) VALUES
-(1, NULL, '11122233E', '$2y$10$OvprunjvKOOhM1h9bzMPs.vuwGIsOqZbw88rzSyGCTJTcE61g5WXi', 'demo@demo.com', 1, 0, 7, 0, NULL, 1422205178, NULL, 1493048004, 0, NULL, NULL, NULL, NULL, 'DEFAULT'),
-(7, NULL, '85212369W', '$2y$10$zMIJLVMtfvGYrUzbPJHgeOGvQiRdxj/RsfBPsVQRs4MuRImANt942', '58fe2121f1e7a@mailbox92.biz', 1, 0, 1, 0, NULL, 1493049721, NULL, NULL, 0, NULL, NULL, NULL, NULL, 'DEFAULT');
-
---
--- Índices para tablas volcadas
---
-
---
--- Indices de la tabla `centros`
---
-ALTER TABLE `centros`
-  ADD PRIMARY KEY (`cod`);
-
---
--- Indices de la tabla `docs`
---
-ALTER TABLE `docs`
-  ADD PRIMARY KEY (`dni`);
-
---
--- Indices de la tabla `flujo`
---
-ALTER TABLE `flujo`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indices de la tabla `flujo_personas`
---
-ALTER TABLE `flujo_personas`
-  ADD PRIMARY KEY (`fpdni`,`fpid`),
-  ADD KEY `fk_fpid` (`fpid`);
-
---
--- Indices de la tabla `menores`
---
-ALTER TABLE `menores`
-  ADD PRIMARY KEY (`dni`);
-
---
--- Indices de la tabla `personas`
---
-ALTER TABLE `personas`
-  ADD PRIMARY KEY (`dni`),
-  ADD KEY `codcent` (`codcent`);
-
-
-
-
---
--- AUTO_INCREMENT de las tablas volcadas
---
-
---
--- AUTO_INCREMENT de la tabla `usuarios`
---
+(1, 'm7u7n62vf2l2smhsjdr1gblh53', '11122233E', '$2y$10$OvprunjvKOOhM1h9bzMPs.vuwGIsOqZbw88rzSyGCTJTcE61g5WXi', 'demo@demo.com', 1, 0, 7, 0, NULL, 1422205178, NULL, 1494581774, 0, NULL, NULL, NULL, NULL, 'DEFAULT'),
+(2, '8fcikcopnorg9ht81r9a4l1pr1', '20863920E', '$2y$10$zMIJLVMtfvGYrUzbPJHgeOGvQiRdxj/RsfBPsVQRs4MuRImANt942', 'joancipria@gmail.com', 1, 0, 2, 0, NULL, 1493049731, NULL, 1494585054, 0, NULL, NULL, NULL, NULL, 'DEFAULT'),
+(7, 'qntti2t3a9ktsq4hmpja0np3l1', '85212369W', '$2y$10$zMIJLVMtfvGYrUzbPJHgeOGvQiRdxj/RsfBPsVQRs4MuRImANt942', '58fe2121f1e7a@mailbox92.biz', 1, 0, 1, 1, NULL, 1493049721, NULL, 1494598098, 0, NULL, NULL, NULL, NULL, 'DEFAULT'),
+(8, NULL, '12345678E', '$2y$10$9wcBkqxm7uTRob9zGygn3O2nHpXld0GitjSBqGhoYg5jIFVQnF6F.', '59117ce7041ec@mailbox92.biz', 0, 0, 1, 0, NULL, 1494318395, NULL, NULL, 0, NULL, '8f99bdd94ec4651f4632bbe9ea13e120cf7a09e1', NULL, NULL, 'DEFAULT');
 
 --
 -- Restricciones para tablas volcadas
 --
+
+--
+-- Filtros para la tabla `centros_consorcios`
+--
+ALTER TABLE `centros_consorcios`
+  ADD CONSTRAINT `centro_ibfk_1` FOREIGN KEY (`cod_cent`) REFERENCES `centros` (`cod`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `consorcio_ibfk_1` FOREIGN KEY (`cod_cons`) REFERENCES `consorcios` (`cod`) ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `docs`
@@ -316,16 +299,10 @@ ALTER TABLE `personas`
   ADD CONSTRAINT `personas_ibfk_2` FOREIGN KEY (`codcent`) REFERENCES `centros` (`cod`) ON UPDATE CASCADE;
 
 --
--- Filtros para la tabla `usuarios`
+-- Filtros para la tabla `users`
 --
 ALTER TABLE `users`
   ADD CONSTRAINT `usuarios_ibfk_1` FOREIGN KEY (`user_name`) REFERENCES `personas` (`dni`) ON UPDATE CASCADE;
-  
-ALTER TABLE `centros_consorcios`
-  ADD CONSTRAINT `centro_ibfk_1` FOREIGN KEY (`cod_cent`) REFERENCES `centros` (`cod`) ON UPDATE CASCADE;
-
-ALTER TABLE `centros_consorcios`
-  ADD CONSTRAINT `consorcio_ibfk_1` FOREIGN KEY (`cod_cons`) REFERENCES `consorcios` (`cod`) ON UPDATE CASCADE;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

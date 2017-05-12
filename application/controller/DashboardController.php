@@ -127,4 +127,10 @@ class DashboardController extends Controller
             Redirect::to('dashboard/mydocuments');
         }
     }
+
+    public function viewDoc()
+    {
+      Auth::checkNoStudentAuthentication();
+      $this->View->render('dashboard/viewDoc');
+    }
 }

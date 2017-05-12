@@ -80,7 +80,7 @@ class UserModel
       $database = DatabaseFactory::getFactory()->getConnection();
       $codcent = RegistrationModel::getCodCent();
 
-      $sql = "SELECT users.user_id,personas.nom AS nom, personas.ape AS ape, centros.nom AS nomcent, docs.foto AS personalfoto FROM users, personas,centros,docs WHERE users.user_name = personas.dni AND personas.codcent = :codcent AND personas.codcent = centros.cod AND docs.dni = personas.dni";
+      $sql = "SELECT users.user_id,personas.nom AS nom, personas.ape AS ape, centros.nom AS nomcent, docs.doc_foto AS personalfoto, personas.dni AS dni FROM users, personas,centros,docs WHERE users.user_name = personas.dni AND personas.codcent = :codcent AND personas.codcent = centros.cod AND docs.dni = personas.dni";
       $query = $database->prepare($sql);
       $query->execute(array(':codcent' => $codcent));
 
@@ -99,6 +99,8 @@ class UserModel
           $all_users_profiles[$user->user_id]->ape = $user->ape;
           $all_users_profiles[$user->user_id]->nomcent = $user->nomcent;
           $all_users_profiles[$user->user_id]->personalfoto = $user->personalfoto;
+          $all_users_profiles[$user->user_id]->dni = $user->dni;
+
       }
 
       return $all_users_profiles;
@@ -553,10 +555,10 @@ class UserModel
         $database = DatabaseFactory::getFactory()->getConnection();
 
         $sql = "SELECT user_id, user_name, user_email, user_password_hash, user_active,user_deleted, user_suspension_timestamp, user_account_type,
-                       user_failed_logins, user_last_failed_login
-                  FROM users
+                       user_failed_logins, user_last_failed_login, personas.nom AS nom, personas.ape AS ape
+                  FROM users,personas
                  WHERE (user_name = :user_name OR user_email = :user_name)
-                       AND user_provider_type = :provider_type
+                       AND user_provider_type = :provider_type AND personas.dni = users.user_name
                  LIMIT 1";
         $query = $database->prepare($sql);
 
