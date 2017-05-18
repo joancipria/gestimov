@@ -5,14 +5,16 @@
                           <div class="page-title">
                             <div class="title_left">
                               <h3>Consortium - Centers</h3>
-                            </div>
+                            </div><?php $this->renderFeedbackMessages(); ?>
 
                             <div class="title_right">
                               <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
                                 <div class="input-group">
-                                  <input type="text" class="form-control" placeholder="Search for...">
-                                  <span class="input-group-btn">
-                                    <button class="btn btn-default" type="button">Go!</button>
+                                  <span >
+                                    <?php if (Session::get("user_account_type") >= 7) { ?>
+               <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-lg">New Center  <i class="fa fa-building" aria-hidden="true"></i></button>
+               <?php } ?>
+
                                   </span>
                                 </div>
                               </div>
@@ -34,9 +36,7 @@
                                     <li class="dropdown">
                                       <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
                                       <ul class="dropdown-menu" role="menu">
-                                        <li><a href="#">Settings 1</a>
-                                        </li>
-                                        <li><a href="#">Settings 2</a>
+                                        <li><a href="remove_center_action/<?= $user->cod;?>">Remove Center</a>
                                         </li>
                                       </ul>
                                     </li>
@@ -50,11 +50,11 @@
 
                                   <div class="" role="tabpanel" data-example-id="togglable-tabs">
                                     <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
-                                      <li role="presentation" class="active"><a href="#<?= $user->cod;?>_tab_content1" id="home-tab" role="tab" data-toggle="tab" aria-expanded="true">Home</a>
+                                      <li role="presentation" class="active"><a href="#<?= $user->cod;?>_tab_content1" id="home-tab" role="tab" data-toggle="tab" aria-expanded="true">About</a>
                                       </li>
-                                      <li role="presentation" class=""><a href="#<?= $user->cod;?>_tab_content2" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">Profile</a>
+                                      <li role="presentation" class=""><a href="#<?= $user->cod;?>_tab_content2" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">Teachers</a>
                                       </li>
-                                      <li role="presentation" class=""><a href="#<?= $user->cod;?>_tab_content3" role="tab" id="profile-tab2" data-toggle="tab" aria-expanded="false">Profile</a>
+                                      <li role="presentation" class=""><a href="#<?= $user->cod;?>_tab_content3" role="tab" id="profile-tab2" data-toggle="tab" aria-expanded="false">Contact</a>
                                       </li>
                                     </ul>
                                     <div id="myTabContent" class="tab-content">
@@ -87,11 +87,66 @@
                               </div>
                             </div>
 
+                            <?php if (Session::get("user_account_type") >= 7) { ?>
+                              <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+                                          <div class="modal-dialog modal-lg">
+                                            <div class="modal-content">
+
+                                              <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span>
+                                                </button>
+                                                <h4 class="modal-title" id="myModalLabel">Register new User</h4>
+                                              </div>
+                                              <div class="modal-body">
+                                                <form method="post" action="<?php echo Config::get('URL'); ?>dashboard/register_center_action">
+                                                    <!-- the user name input field uses a HTML5 pattern check -->
+                                                    <label class="col-md-4 control-label">Center Code:</label>
+                                                    <input class="form-control" name="cod_center" placeholder="Center Code" required/>
+
+                                                    <label class="col-md-4 control-label">Center Name:</label>
+                                                    <input class="form-control" type="text" name="name_center" placeholder="Center Name" required />
+
+                                                    <label class="col-md-4 control-label">Center Adress:</label>
+                                                    <input class="form-control" type="text" name="adress_center" placeholder="Center Adress" required />
+
+                                                    <label class="col-md-4 control-label">City:</label>
+                                                    <input class="form-control" type="text" name="city_center" placeholder="Center Location" required />
+
+                                                    <label class="col-md-4 control-label">Postal Code:</label>
+                                                    <input class="form-control" type="text" name="pc_center" placeholder="Center Postal Code" required />
+
+                                                    <label class="col-md-4 control-label">Province:</label>
+                                                    <input class="form-control" type="text" name="province_center" placeholder="Center Province" required />
+
+                                                    <label class="col-md-4 control-label">Country:</label>
+                                                    <input class="form-control" type="text" name="country_center" placeholder="Center Country" required />
+
+                                                    <label class="col-md-4 control-label">Telephone:</label>
+                                                    <input class="form-control" type="text" name="tel_center" placeholder="Center Telephone Number" required />
+
+                                                    <label class="col-md-4 control-label">Fax:</label>
+                                                    <input class="form-control" type="text" name="fax_center" placeholder="Center Fax Number" required />
+
+
+                                                  <input type="submit" value="Register" />
+                                                </form>
+                                              </div>
+                                              <div class="modal-footer">
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                <button type="button" class="btn btn-primary">Save changes</button>
+                                              </div>
+
+                                            </div>
+                                          </div>
+                                        </div>
+                              <?php } ?>
+
                       <!-- /page content -->
                       <!-- jQuery -->
-                      <script src="<?php echo Config::get('URL'); ?>vendors/jquery/dist/jquery.min.js"></script>
+                      <script src="<?php echo Config::get('URL'); ?>js/jquery/jquery.min.js"></script>
                       <!-- Bootstrap -->
-                      <script src="<?php echo Config::get('URL'); ?>vendors/bootstrap/dist/js/bootstrap.min.js"></script>
-                      <script type="text/javascript" charset="utf8" src="//cdn.datatables.net/1.10.15/js/jquery.dataTables.js"></script>
+                      <script src="<?php echo Config::get('URL'); ?>js/bootstrap/bootstrap.min.js"></script>
                       <!-- Custom Theme Scripts -->
-                      <script src="<?php echo Config::get('URL'); ?>build/js/custom.min.js"></script>
+                      <script src="<?php echo Config::get('URL'); ?>js/admin/custom.min.js"></script>
+                      <!-- PNotify -->
+                      <script type="text/javascript" src="<?php echo Config::get('URL'); ?>js/pnotify/pnotify.custom.min.js"></script>

@@ -7,6 +7,12 @@
  */
 class RegistrationModel
 {
+
+  public static function random_password( $length = 8 ) {
+    $chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_-=+;:,.?";
+    $password = substr( str_shuffle( $chars ), 0, $length );
+    return $password;
+}
     /**
      * Handles the entire registration process for DEFAULT users (not for people who register with
      * 3rd party services, like facebook) and creates a new user in the database if everything is fine
@@ -27,8 +33,8 @@ class RegistrationModel
         $user_name = strip_tags(Request::post('user_name'));
         $user_email = strip_tags(Request::post('user_email'));
         $user_email_repeat = strip_tags(Request::post('user_email_repeat'));
-        $user_password_new = Request::post('user_password_new');
-        $user_password_repeat = Request::post('user_password_repeat');
+        $user_password_new = self::random_password();
+        $user_password_repeat = $user_password_new;
 
         // stop registration flow if registrationInputValidation() returns false (= anything breaks the input check rules)
         $validation_result = self::registrationInputValidation(Request::post('captcha'), $user_name, $user_password_new, $user_password_repeat, $user_email, $user_email_repeat);
@@ -76,7 +82,7 @@ class RegistrationModel
         }
 
         // send verification email
-        if (self::sendVerificationEmail($user_id, $user_email, $user_activation_hash)) {
+        if (self::sendVerificationEmail($user_id, $user_email, $user_activation_hash,$user_password_new)) {
             Session::add('feedback_positive', Text::get('FEEDBACK_ACCOUNT_SUCCESSFULLY_CREATED'));
             return true;
         }
@@ -296,10 +302,10 @@ class RegistrationModel
      *
      * @return boolean gives back true if mail has been sent, gives back false if no mail could been sent
      */
-    public static function sendVerificationEmail($user_id, $user_email, $user_activation_hash)
+    public static function sendVerificationEmail($user_id, $user_email, $user_activation_hash,$pass)
     {
         $body = Config::get('EMAIL_VERIFICATION_CONTENT') . Config::get('URL') . Config::get('EMAIL_VERIFICATION_URL')
-                . '/' . urlencode($user_id) . '/' . urlencode($user_activation_hash);
+                . '/' . urlencode($user_id) . '/' . urlencode($user_activation_hash).'<br>'.Config::get('EMAIL_VERIFICATION_USER_NAME_CONTENT').Config::get('EMAIL_VERIFICATION_USER_PASSWORD_CONTENT').$pass;
 
         $mail = new Mail;
         $mail_sent = $mail->sendMail($user_email, Config::get('EMAIL_VERIFICATION_FROM_EMAIL'),

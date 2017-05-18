@@ -14,7 +14,7 @@ class UserModel
       $codcent = RegistrationModel::getCodCent();
       $myself = Session::get('user_name');
 
-      $sql = "SELECT users.user_id,personas.nom AS nom, personas.ape AS ape,personas.dni AS dni, centros.nom AS nomcent FROM users, personas,centros WHERE users.user_name = personas.dni AND personas.codcent = centros.cod AND centros.cod = :codcent AND users.user_name <> :myself";
+      $sql = "SELECT users.user_id,personas.nom AS nom, personas.ape AS ape,personas.dni AS dni, centros.nom AS nomcent,users.user_email AS email,personas.telefono AS telefono,personas.direccion AS direccion, personas.poblacion AS poblacion, personas.cp AS cp, personas.provincia AS provincia, personas.pais AS pais, personas.fechanac AS fechanac FROM users, personas,centros WHERE users.user_account_type = 1 AND users.user_name = personas.dni AND personas.codcent = centros.cod AND centros.cod = :codcent AND users.user_name <> :myself";
       $query = $database->prepare($sql);
       $query->execute(array(':codcent' => $codcent, ':myself' => $myself));
 
@@ -34,9 +34,60 @@ class UserModel
           $all_users_profiles[$user->user_id]->ape = $user->ape;
           $all_users_profiles[$user->user_id]->nomcent = $user->nomcent;
           $all_users_profiles[$user->user_id]->dni = $user->dni;
+          $all_users_profiles[$user->user_id]->email = $user->email;
+          $all_users_profiles[$user->user_id]->telefono = $user->telefono;
+          $all_users_profiles[$user->user_id]->direccion = $user->direccion;
+          $all_users_profiles[$user->user_id]->poblacion = $user->poblacion;
+          $all_users_profiles[$user->user_id]->cp = $user->cp;
+          $all_users_profiles[$user->user_id]->provincia = $user->provincia;
+          $all_users_profiles[$user->user_id]->pais = $user->pais;
+          $all_users_profiles[$user->user_id]->fechanac = $user->fechanac;
+
+
+
+
+
       }
 
       return $all_users_profiles;
+  }
+
+  public static function getPublicProfilesOfMyStudentsConsorcium()
+  {
+    Auth::checkAdminAuthentication();
+    $database = DatabaseFactory::getFactory()->getConnection();
+    $codcons = RegistrationModel::getCodConsorcium();
+
+    $sql = "SELECT users.user_id,personas.nom AS nom, personas.ape AS ape,personas.dni AS dni, centros.nom AS nomcent, users.user_email AS email,personas.telefono AS telefono,personas.direccion AS direccion, personas.poblacion AS poblacion, personas.cp AS cp, personas.provincia AS provincia, personas.pais AS pais, personas.fechanac AS fechanac FROM users, personas,centros,centros_consorcios, consorcios WHERE users.user_account_type = 1 AND users.user_name = personas.dni AND personas.codcent = centros.cod AND centros.cod = centros_consorcios.cod_cent AND centros_consorcios.cod_cons = consorcios.cod AND consorcios.cod = :codcons";
+    $query = $database->prepare($sql);
+    $query->execute(array(':codcons' => $codcons));
+
+    $all_users_profiles = array();
+
+    foreach ($query->fetchAll() as $user) {
+
+        // all elements of array passed to Filter::XSSFilter for XSS sanitation, have a look into
+        // application/core/Filter.php for more info on how to use. Removes (possibly bad) JavaScript etc from
+        // the user's values
+        array_walk_recursive($user, 'Filter::XSSFilter');
+
+        $all_users_profiles[$user->user_id] = new stdClass();
+        $all_users_profiles[$user->user_id]->user_id = $user->user_id;
+        $all_users_profiles[$user->user_id]->nom = $user->nom;
+        $all_users_profiles[$user->user_id]->ape = $user->ape;
+        $all_users_profiles[$user->user_id]->nomcent = $user->nomcent;
+        $all_users_profiles[$user->user_id]->dni = $user->dni;
+        $all_users_profiles[$user->user_id]->email = $user->email;
+        $all_users_profiles[$user->user_id]->telefono = $user->telefono;
+        $all_users_profiles[$user->user_id]->direccion = $user->direccion;
+        $all_users_profiles[$user->user_id]->poblacion = $user->poblacion;
+        $all_users_profiles[$user->user_id]->cp = $user->cp;
+        $all_users_profiles[$user->user_id]->provincia = $user->provincia;
+        $all_users_profiles[$user->user_id]->pais = $user->pais;
+        $all_users_profiles[$user->user_id]->fechanac = $user->fechanac;
+    }
+
+    return $all_users_profiles;
   }
 
 
@@ -48,7 +99,7 @@ class UserModel
       Auth::checkAdminAuthentication();
       $database = DatabaseFactory::getFactory()->getConnection();
 
-      $sql = "SELECT users.user_id,personas.nom AS nom, personas.ape AS ape, centros.nom AS nomcent, docs.foto AS personalfoto FROM users, personas,centros,docs WHERE users.user_name = personas.dni AND personas.codcent = centros.cod AND docs.dni = personas.dni";
+      $sql = "SELECT users.user_id,personas.nom AS nom, personas.ape AS ape, centros.nom AS nomcent, docs.doc_foto AS personalfoto, personas.dni AS dni FROM users, personas,centros,docs WHERE users.user_name = personas.dni AND personas.codcent = centros.cod AND docs.dni = personas.dni";
       $query = $database->prepare($sql);
       $query->execute();
 
@@ -67,6 +118,7 @@ class UserModel
           $all_users_profiles[$user->user_id]->ape = $user->ape;
           $all_users_profiles[$user->user_id]->nomcent = $user->nomcent;
           $all_users_profiles[$user->user_id]->personalfoto = $user->personalfoto;
+          $all_users_profiles[$user->user_id]->dni = $user->dni;
       }
 
       return $all_users_profiles;
@@ -80,7 +132,7 @@ class UserModel
       $database = DatabaseFactory::getFactory()->getConnection();
       $codcent = RegistrationModel::getCodCent();
 
-      $sql = "SELECT users.user_id,personas.nom AS nom, personas.ape AS ape, centros.nom AS nomcent, docs.doc_foto AS personalfoto, personas.dni AS dni FROM users, personas,centros,docs WHERE users.user_name = personas.dni AND personas.codcent = :codcent AND personas.codcent = centros.cod AND docs.dni = personas.dni";
+      $sql = "SELECT users.user_id,personas.nom AS nom, personas.ape AS ape, centros.nom AS nomcent, docs.doc_foto AS personalfoto,docs.doc_dni AS personaldni, personas.dni AS dni FROM users, personas,centros,docs WHERE users.user_name = personas.dni AND personas.codcent = :codcent AND personas.codcent = centros.cod AND docs.dni = personas.dni";
       $query = $database->prepare($sql);
       $query->execute(array(':codcent' => $codcent));
 
@@ -99,6 +151,7 @@ class UserModel
           $all_users_profiles[$user->user_id]->ape = $user->ape;
           $all_users_profiles[$user->user_id]->nomcent = $user->nomcent;
           $all_users_profiles[$user->user_id]->personalfoto = $user->personalfoto;
+          $all_users_profiles[$user->user_id]->personaldni = $user->personaldni;
           $all_users_profiles[$user->user_id]->dni = $user->dni;
 
       }
@@ -219,6 +272,38 @@ class UserModel
       return $all_users_profiles;
   }
 
+  public static function getFlowsOfMyConsorcium()
+  {
+      $database = DatabaseFactory::getFactory()->getConnection();
+      $codcons = RegistrationModel::getCodConsorcium();
+
+
+
+      $sql = "SELECT flujo.id AS codflujo, flujo.FechaSalida AS fechasalida, flujo.FechaLLegada AS fechallegada, flujo.PaisDestino AS pais, flujo.CiudadDestino AS ciudad FROM flujo WHERE flujo.cod_consorcio = :codcons";
+      $query = $database->prepare($sql);
+      $query->execute(array(':codcons' => $codcons));
+
+      $all_users_profiles = array();
+
+      foreach ($query->fetchAll() as $flow) {
+
+          // all elements of array passed to Filter::XSSFilter for XSS sanitation, have a look into
+          // application/core/Filter.php for more info on how to use. Removes (possibly bad) JavaScript etc from
+          // the user's values
+          array_walk_recursive($flow, 'Filter::XSSFilter');
+
+          $all_users_profiles[$flow->codflujo] = new stdClass();
+          $all_users_profiles[$flow->codflujo]->codflujo = $flow->codflujo;
+          $all_users_profiles[$flow->codflujo]->fechasalida = $flow->fechasalida;
+          $all_users_profiles[$flow->codflujo]->fechallegada = $flow->fechallegada;
+          $all_users_profiles[$flow->codflujo]->pais = $flow->pais;
+          $all_users_profiles[$flow->codflujo]->ciudad = $flow->ciudad;
+
+      }
+
+      return $all_users_profiles;
+  }
+
 
 
   public static function getDocumentsOfMyStudentsConsorcium()
@@ -228,7 +313,7 @@ class UserModel
       $codcons = RegistrationModel::getCodConsorcium();
 
 
-      $sql = "SELECT users.user_id,personas.nom AS nom, personas.ape AS ape, centros.nom AS nomcent, docs.foto AS personalfoto FROM users, personas,centros,docs,centros_consorcios,consorcios WHERE users.user_name = personas.dni AND personas.codcent = centros.cod AND docs.dni = personas.dni AND centros.cod = centros_consorcios.cod_cent AND centros_consorcios.cod_cons = consorcios.cod AND consorcios.cod = :codcons";
+      $sql = "SELECT users.user_id,personas.nom AS nom, personas.ape AS ape, centros.nom AS nomcent, docs.doc_foto AS personalfoto,docs.doc_dni AS personaldni, personas.dni AS dni FROM users, personas,centros,docs,centros_consorcios,consorcios WHERE users.user_name = personas.dni AND personas.codcent = centros.cod AND docs.dni = personas.dni AND centros.cod = centros_consorcios.cod_cent AND centros_consorcios.cod_cons = consorcios.cod AND consorcios.cod = :codcons";
       $query = $database->prepare($sql);
       $query->execute(array(':codcons' => $codcons));
 
@@ -247,6 +332,8 @@ class UserModel
           $all_users_profiles[$user->user_id]->ape = $user->ape;
           $all_users_profiles[$user->user_id]->nomcent = $user->nomcent;
           $all_users_profiles[$user->user_id]->personalfoto = $user->personalfoto;
+          $all_users_profiles[$user->user_id]->personaldni = $user->personaldni;
+          $all_users_profiles[$user->user_id]->dni = $user->dni;
       }
 
       return $all_users_profiles;
@@ -595,4 +682,42 @@ class UserModel
         // return one row (we only have one result or nothing)
         return $query->fetch();
     }
+
+    public static function updateProfile()
+    {
+      $userRealName = Request::post('real_name');
+      $userRealSurName = Request::post('surname');
+      $userTelephone = Request::post('telephone');
+      $userAdress = Request::post('adress');
+      $userCity = Request::post('city');
+      $userPC = Request::post('pc');
+      $userProvince = Request::post('province');
+      $userCountry = Request::post('country');
+      $userBirthDate = Request::post('birthday');
+      $myself = Session::get('user_name');
+
+
+      $database = DatabaseFactory::getFactory()->getConnection();
+
+      $query = $database->prepare("UPDATE personas SET nom = :nom, ape = :ape, telefono = :telef,direccion = :direc, poblacion = :pobla, cp = :pc, provincia = :provi, pais = :pais, fechanac = :birth WHERE personas.dni = :userdni;");
+      $status = $query->execute(array(
+        ':userdni' => $myself,
+        ':nom' => $userRealName,
+        ':ape' => $userRealSurName,
+        ':telef' => $userTelephone,
+        ':direc' => $userAdress,
+        ':pobla' => $userCity,
+        ':pc' => $userPC,
+        ':provi' => $userProvince,
+        ':pais' => $userCountry,
+        ':birth' => $userBirthDate
+      ));
+
+if ($status) {
+  return true;
+} else {
+  return false;
 }
+
+    }
+  }

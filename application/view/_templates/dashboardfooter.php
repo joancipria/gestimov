@@ -1,3 +1,13 @@
+<script type="text/javascript">
+function notifyUser(title,text,type){
+  new PNotify({
+    title: title,
+    text: text,
+    type: type,
+    styling: 'fontawesome'
+  });
+}
+</script>
 <!-- footer content -->
 <footer>
   <div class="pull-right">

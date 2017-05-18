@@ -9,17 +9,16 @@
     <title>GMOV+ | Home</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
-    <link rel="stylesheet" href="<?php echo Config::get('URL'); ?>css/bootstrap.min.css">
-    <link rel="stylesheet" href="<?php echo Config::get('URL'); ?>css/font-awesome.min.css">
+    <link rel="stylesheet" href="<?php echo Config::get('URL'); ?>css/bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="<?php echo Config::get('URL'); ?>css/font-awesome/font-awesome.min.css">
     <link rel="stylesheet" href="<?php echo Config::get('URL'); ?>css/main.css">
-    <link rel="stylesheet" href="<?php echo Config::get('URL'); ?>css/sl-slide.css">
     <link rel="stylesheet" href="<?php echo Config::get('URL'); ?>css/custom-style.css">
-
-
-    <script src="<?php echo Config::get('URL'); ?>js/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script>
-
+    <!-- PNotify -->
+    <link href="<?php echo Config::get('URL'); ?>css/pnotify/pnotify.custom.min.css" media="all" rel="stylesheet" type="text/css" />
     <!-- Le fav and touch icons -->
     <link rel="shortcut icon" href="<?php echo Config::get('URL'); ?>img/ico/favicon.png">
+
+    <link rel="prefetch" href="image.png">
 </head>
 
 <body style="padding-top:0px;background-color: #fff;">
@@ -40,7 +39,7 @@
                   <li <?php if (View::checkForActiveController($filename, "index")) { echo ' class="active" '; } ?> ><a href="/index">HOME</a></li>
                   <li <?php if (View::checkForActiveController($filename, "faq")) { echo ' class="active" '; } ?> ><a href="/faq">FAQ</a></li>
                   <li class="login <?php if (View::checkForActiveController($filename, "login")) { echo ' active '; } ?>">
-                      <a href="/login"><i class="icon-lock"></i></a>
+                      <a href="/login"><i class="fa fa-lock" aria-hidden="true"></i></a>
                   </li>
                 </ul>
               </div>

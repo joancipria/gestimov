@@ -16,14 +16,14 @@ class UserRoleModel
      *
      * @return bool
      */
-    public static function changeUserRole($type)
+    public static function changeUserRole($type,$user_id)
     {
         if (!$type) {
             return false;
         }
 
         // save new role to database
-        if (self::saveRoleToDatabase($type)) {
+        if (self::saveRoleToDatabase($type,$user_id)) {
             Session::add('feedback_positive', Text::get('FEEDBACK_ACCOUNT_TYPE_CHANGE_SUCCESSFUL'));
             return true;
         } else {
@@ -39,7 +39,7 @@ class UserRoleModel
      *
      * @return bool
      */
-    public static function saveRoleToDatabase($type)
+    public static function saveRoleToDatabase($type,$user_id)
     {
         // if $type is not 1 or 2
         if (!in_array($type, [1, 2])) {
@@ -51,12 +51,10 @@ class UserRoleModel
         $query = $database->prepare("UPDATE users SET user_account_type = :new_type WHERE user_id = :user_id LIMIT 1");
         $query->execute(array(
             ':new_type' => $type,
-            ':user_id' => Session::get('user_id')
+            ':user_id' => $user_id
         ));
 
         if ($query->rowCount() == 1) {
-            // set account type in session
-            Session::set('user_account_type', $type);
             return true;
         }
 

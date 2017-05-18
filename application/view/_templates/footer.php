@@ -1,4 +1,3 @@
-
 <!--Footer-->
 <footer id="footer">
     <div class="container">
@@ -12,68 +11,23 @@
 </footer>
 <!--/Footer-->
 
-<!--  Login form -->
-<div class="modal fade" id="login-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
-    	  <div class="modal-dialog">
-				<div class="loginmodal-container">
-					<h1>Login to Your Account</h1><br>
-				  <form action="validateLogin.php">
-					<input type="text" name="dni" placeholder="Username">
-					<input type="password" name="password" placeholder="Password">
-					<input type="submit" name="login" class="login loginmodal-submit" value="Login">
-				  </form>
-
-				  <div class="login-help">
-					<a href="#">Register</a> - <a href="#">Forgot Password</a>
-				  </div>
-				</div>
-			</div>
-		  </div>
-<!--  /Login form -->
-
-<script src="<?php echo Config::get('URL'); ?>js/vendor/jquery-1.9.1.min.js"></script>
-<script src="<?php echo Config::get('URL'); ?>js/vendor/bootstrap.min.js"></script>
+<!-- jQuery -->
+<script src="<?php echo Config::get('URL'); ?>js/jquery/jquery.min.js"></script>
+<!-- Bootstrap -->
+<script src="<?php echo Config::get('URL'); ?>js/bootstrap/bootstrap.min.js"></script>
 <script src="<?php echo Config::get('URL'); ?>js/main.js"></script>
-<!-- Required javascript files for Slider -->
-<script src="<?php echo Config::get('URL'); ?>js/jquery.ba-cond.min.js"></script>
-<script src="<?php echo Config::get('URL'); ?>js/jquery.slitslider.js"></script>
-<!-- /Required javascript files for Slider -->
 
-<!-- SL Slider -->
+<!-- PNotify -->
+<script type="text/javascript" src="<?php echo Config::get('URL'); ?>js/pnotify/pnotify.custom.min.js"></script>
 <script type="text/javascript">
-$(function() {
-    var Page = (function() {
-
-        var $navArrows = $( '#nav-arrows' ),
-        slitslider = $( '#slider' ).slitslider( {
-            autoplay : true
-        } ),
-
-        init = function() {
-            initEvents();
-        },
-        initEvents = function() {
-            $navArrows.children( ':last' ).on( 'click', function() {
-                slitslider.next();
-                return false;
-            });
-
-            $navArrows.children( ':first' ).on( 'click', function() {
-                slitslider.previous();
-                return false;
-            });
-        };
-
-        return { init : init };
-
-    })();
-
-    Page.init();
-});
-
-
-
+function notifyUser(title,text,type){
+  new PNotify({
+    title: title,
+    text: text,
+    type: type,
+    styling: 'fontawesome'
+  });
+}
 </script>
-<!-- /SL Slider -->
 </body>
 </html>

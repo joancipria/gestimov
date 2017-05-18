@@ -117,18 +117,18 @@ class UserController extends Controller
      */
     public function changeUserRole_action()
     {
-        //Auth::checkAdminAuthentication();
+        Auth::checkAdminAuthentication();
         if (Request::post('user_account_upgrade')) {
             // "2" is quick & dirty account type 2, something like "premium user" maybe. you got the idea :)
-            UserRoleModel::changeUserRole(2);
+            UserRoleModel::changeUserRole(2,Request::post('user_id'));
         }
 
         if (Request::post('user_account_downgrade')) {
             // "1" is quick & dirty account type 1, something like "basic user" maybe.
-            UserRoleModel::changeUserRole(1);
+            UserRoleModel::changeUserRole(1,Request::post('user_id'));
         }
 
-        Redirect::to('user/changeUserRole');
+        Redirect::to('dashboard/users');
     }
 
     /**

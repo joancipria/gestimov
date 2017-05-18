@@ -2,10 +2,10 @@
 -- version 4.0.10deb1
 -- http://www.phpmyadmin.net
 --
--- Servidor: localhost
--- Tiempo de generación: 12-05-2017 a las 14:10:17
--- Versión del servidor: 5.5.54-0ubuntu0.14.04.1
--- Versión de PHP: 5.5.9-1ubuntu4.21
+-- Host: localhost
+-- Generation Time: May 17, 2017 at 09:39 PM
+-- Server version: 5.5.54-0ubuntu0.14.04.1
+-- PHP Version: 5.5.9-1ubuntu4.21
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -17,13 +17,13 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8 */;
 
 --
--- Base de datos: `huge`
+-- Database: `huge`
 --
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `centros`
+-- Table structure for table `centros`
 --
 
 CREATE TABLE IF NOT EXISTS `centros` (
@@ -40,18 +40,17 @@ CREATE TABLE IF NOT EXISTS `centros` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
--- Volcado de datos para la tabla `centros`
+-- Dumping data for table `centros`
 --
 
 INSERT INTO `centros` (`cod`, `nom`, `direccion`, `poblacion`, `cp`, `provincia`, `pais`, `tel`, `fax`) VALUES
 (46001199, 'IES Sant Vicent Ferrer', 'Parc Salvador Castell, 16', 'Algemesi', 46680, 'Valencia', 'Espanya', 962457820, 962457821),
-(46018692, 'IES LLuis Simarro', 'Av. Corts Valencianes s/n', 'Xativa', 46800, 'Valencia', 'Espanya', 962249080, 962249081),
-(46025040, 'IES Abastos', 'Cl ALBERIQUE 18 ', 'Valencia', 46008, 'Valencia', 'Espanya', 963820831, 963820832);
+(46018692, 'IES LLuis Simarro', 'Av. Corts Valencianes s/n', 'Xativa', 46800, 'Valencia', 'Espanya', 962249080, 962249081);
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `centros_consorcios`
+-- Table structure for table `centros_consorcios`
 --
 
 CREATE TABLE IF NOT EXISTS `centros_consorcios` (
@@ -61,21 +60,21 @@ CREATE TABLE IF NOT EXISTS `centros_consorcios` (
   PRIMARY KEY (`id`),
   KEY `centro_ibfk_1` (`cod_cent`),
   KEY `consorcio_ibfk_1` (`cod_cons`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=12 ;
 
 --
--- Volcado de datos para la tabla `centros_consorcios`
+-- Dumping data for table `centros_consorcios`
 --
 
 INSERT INTO `centros_consorcios` (`id`, `cod_cent`, `cod_cons`) VALUES
 (1, 46001199, 1),
 (2, 46018692, 1),
-(3, 46025040, 2);
+(11, 46001199, 1);
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `consorcios`
+-- Table structure for table `consorcios`
 --
 
 CREATE TABLE IF NOT EXISTS `consorcios` (
@@ -85,7 +84,7 @@ CREATE TABLE IF NOT EXISTS `consorcios` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=3 ;
 
 --
--- Volcado de datos para la tabla `consorcios`
+-- Dumping data for table `consorcios`
 --
 
 INSERT INTO `consorcios` (`cod`, `nom`) VALUES
@@ -95,7 +94,7 @@ INSERT INTO `consorcios` (`cod`, `nom`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `docs`
+-- Table structure for table `docs`
 --
 
 CREATE TABLE IF NOT EXISTS `docs` (
@@ -111,58 +110,64 @@ CREATE TABLE IF NOT EXISTS `docs` (
   PRIMARY KEY (`dni`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+--
+-- Dumping data for table `docs`
+--
 
-
+INSERT INTO `docs` (`dni`, `doc_dni`, `doc_foto`, `doc_sanitaria`, `doc_cv`, `doc_banco`, `doc_carta`, `doc_appform`, `doc_salida`) VALUES
+('12345678E', 1, 1, 0, 0, 0, 0, 0, 0),
+('85212369W', 1, 1, 0, 0, 0, 0, 0, 0);
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `flujo`
+-- Table structure for table `flujo`
 --
 
 CREATE TABLE IF NOT EXISTS `flujo` (
-  `id` varchar(10) COLLATE utf8_unicode_ci NOT NULL,
+  `id` int(8) NOT NULL AUTO_INCREMENT,
   `FechaSalida` date NOT NULL,
   `FechaLlegada` date NOT NULL,
   `PaisDestino` varchar(30) COLLATE utf8_unicode_ci NOT NULL,
   `CiudadDestino` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `cod_consorcio` int(8) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `flujo_ibfk_1` (`cod_consorcio`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=3 ;
 
 --
--- Volcado de datos para la tabla `flujo`
+-- Dumping data for table `flujo`
 --
 
-INSERT INTO `flujo` (`id`, `FechaSalida`, `FechaLlegada`, `PaisDestino`, `CiudadDestino`) VALUES
-('IT1', '2016-06-09', '2016-07-09', 'Italia', 'Reggio'),
-('IT2', '2016-07-07', '2016-08-08', 'Italia', 'Milan'),
-('IT3', '2016-08-10', '2016-09-12', 'Italia', 'Roma');
+INSERT INTO `flujo` (`id`, `FechaSalida`, `FechaLlegada`, `PaisDestino`, `CiudadDestino`, `cod_consorcio`) VALUES
+(1, '2016-06-09', '2016-07-09', 'Italia', 'Reggio', 1),
+(2, '2017-05-12', '2017-06-12', 'Portugal', 'Paredes', 1);
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `flujo_personas`
+-- Table structure for table `flujo_personas`
 --
 
 CREATE TABLE IF NOT EXISTS `flujo_personas` (
   `fpdni` varchar(9) COLLATE utf8_unicode_ci NOT NULL,
-  `fpid` varchar(10) COLLATE utf8_unicode_ci NOT NULL,
+  `fpid` int(8) NOT NULL,
   `Activo` enum('si','no') COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`fpdni`,`fpid`),
   KEY `fk_fpid` (`fpid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
--- Volcado de datos para la tabla `flujo_personas`
+-- Dumping data for table `flujo_personas`
 --
 
 INSERT INTO `flujo_personas` (`fpdni`, `fpid`, `Activo`) VALUES
-('85212369W', 'IT1', 'si');
+('12345678E', 1, 'si');
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `menores`
+-- Table structure for table `menores`
 --
 
 CREATE TABLE IF NOT EXISTS `menores` (
@@ -182,7 +187,7 @@ CREATE TABLE IF NOT EXISTS `menores` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
--- Volcado de datos para la tabla `menores`
+-- Dumping data for table `menores`
 --
 
 INSERT INTO `menores` (`dni`, `nompadre`, `apepadre`, `dnip`, `telefono`, `email`, `direccion`, `poblacion`, `cp`, `provincia`, `pais`, `fechanac`) VALUES
@@ -192,7 +197,7 @@ INSERT INTO `menores` (`dni`, `nompadre`, `apepadre`, `dnip`, `telefono`, `email
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `personas`
+-- Table structure for table `personas`
 --
 
 CREATE TABLE IF NOT EXISTS `personas` (
@@ -212,19 +217,19 @@ CREATE TABLE IF NOT EXISTS `personas` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
--- Volcado de datos para la tabla `personas`
+-- Dumping data for table `personas`
 --
 
 INSERT INTO `personas` (`nom`, `ape`, `dni`, `telefono`, `direccion`, `poblacion`, `cp`, `provincia`, `pais`, `fechanac`, `codcent`) VALUES
-('Paco', 'Llopis Martinez', '11122233E', 614002351, 'Calle La Reina 10-3-6', 'Xativa', 46800, 'Valencia', 'Espanya', '1999-02-15', 46018692),
-('Empty', 'Empty', '12345678E', 0, 'Empty', 'Empty', 0, 'Empty', 'Empty', '1200-09-05', 46025040),
-('Joan', 'Moreno Teodoro', '20863920E', 622451790, 'Carrer San Isidre 20', 'Algemesí', 46800, 'Valencia', 'Espanya', '1997-05-03', 46018692),
-('Antonio', 'Rosado Aguado', '85212369W', 987987987, 'Calle Mº Concepción Nº32', 'Benicull', 46800, 'Valencia', 'Espanya', '1998-12-12', 46018692);
+('', '', '11122233E', 0, '', '', 0, '', '', '0000-00-00', 46018692),
+('Emilio', 'García', '12345678E', 962423456, 'Calle San Silvestre', 'Gandia', 46700, 'Valencia', 'Spain', '1200-09-05', 46001199),
+('Joan', 'Moreno Teodoro', '20863920E', 622451790, 'Carrer San Isidre 20', 'Algemesí', 46800, 'Valencia', 'Spain', '1997-05-03', 46018692),
+('Antonio', 'Rosado Aguado', '85212369W', 987987987, 'Calle Mº Concepción Nº32', 'Benicull', 46800, 'Valencia', 'Spain', '1998-12-12', 46018692);
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `users`
+-- Table structure for table `users`
 --
 
 CREATE TABLE IF NOT EXISTS `users` (
@@ -250,59 +255,65 @@ CREATE TABLE IF NOT EXISTS `users` (
   PRIMARY KEY (`user_id`),
   UNIQUE KEY `user_name` (`user_name`),
   UNIQUE KEY `user_email` (`user_email`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='user data' AUTO_INCREMENT=9 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='user data' AUTO_INCREMENT=14 ;
 
 --
--- Volcado de datos para la tabla `users`
+-- Dumping data for table `users`
 --
 
 INSERT INTO `users` (`user_id`, `session_id`, `user_name`, `user_password_hash`, `user_email`, `user_active`, `user_deleted`, `user_account_type`, `user_has_avatar`, `user_remember_me_token`, `user_creation_timestamp`, `user_suspension_timestamp`, `user_last_login_timestamp`, `user_failed_logins`, `user_last_failed_login`, `user_activation_hash`, `user_password_reset_hash`, `user_password_reset_timestamp`, `user_provider_type`) VALUES
-(1, 'm7u7n62vf2l2smhsjdr1gblh53', '11122233E', '$2y$10$OvprunjvKOOhM1h9bzMPs.vuwGIsOqZbw88rzSyGCTJTcE61g5WXi', 'demo@demo.com', 1, 0, 7, 0, NULL, 1422205178, NULL, 1494581774, 0, NULL, NULL, NULL, NULL, 'DEFAULT'),
-(2, '8fcikcopnorg9ht81r9a4l1pr1', '20863920E', '$2y$10$zMIJLVMtfvGYrUzbPJHgeOGvQiRdxj/RsfBPsVQRs4MuRImANt942', 'joancipria@gmail.com', 1, 0, 2, 0, NULL, 1493049731, NULL, 1494585054, 0, NULL, NULL, NULL, NULL, 'DEFAULT'),
-(7, 'qntti2t3a9ktsq4hmpja0np3l1', '85212369W', '$2y$10$zMIJLVMtfvGYrUzbPJHgeOGvQiRdxj/RsfBPsVQRs4MuRImANt942', '58fe2121f1e7a@mailbox92.biz', 1, 0, 1, 1, NULL, 1493049721, NULL, 1494598098, 0, NULL, NULL, NULL, NULL, 'DEFAULT'),
-(8, NULL, '12345678E', '$2y$10$9wcBkqxm7uTRob9zGygn3O2nHpXld0GitjSBqGhoYg5jIFVQnF6F.', '59117ce7041ec@mailbox92.biz', 0, 0, 1, 0, NULL, 1494318395, NULL, NULL, 0, NULL, '8f99bdd94ec4651f4632bbe9ea13e120cf7a09e1', NULL, NULL, 'DEFAULT');
+(1, 'gtum8eanie9b6gjoht6edbohf6', '11122233E', '$2y$10$OvprunjvKOOhM1h9bzMPs.vuwGIsOqZbw88rzSyGCTJTcE61g5WXi', 'demo@demo.com', 1, 0, 7, 0, NULL, 1422205178, NULL, 1494961442, 0, NULL, NULL, NULL, NULL, 'DEFAULT'),
+(2, 'udvmtgt3p8rq27nmen1oj01d31', '20863920E', '$2y$10$zMIJLVMtfvGYrUzbPJHgeOGvQiRdxj/RsfBPsVQRs4MuRImANt942', 'joancipria@gmail.com', 1, 0, 2, 0, NULL, 1493049731, NULL, 1495000720, 0, NULL, NULL, '93196432346968e7c42da2a51b8d5c3e7d00710f', 1494692980, 'DEFAULT'),
+(7, NULL, '85212369W', '$2y$10$zMIJLVMtfvGYrUzbPJHgeOGvQiRdxj/RsfBPsVQRs4MuRImANt942', '58fe2121f1e7a@mailbox92.biz', 1, 0, 1, 1, NULL, 1493049721, NULL, 1494859252, 0, NULL, NULL, NULL, NULL, 'DEFAULT'),
+(13, 'qrchom9e13dqq4bjb5dqahmms0', '12345678E', '$2y$10$Ae7jmBRQ76KiARXZ8QUXluY8ayiMkA4HbYkwL7vrNoF.goorb2IMm', '5919b60ccbd8b@mailbox92.biz', 1, 0, 1, 0, NULL, 1494857249, NULL, 1494857702, 2, 1494859238, NULL, NULL, NULL, 'DEFAULT');
 
 --
--- Restricciones para tablas volcadas
+-- Constraints for dumped tables
 --
 
 --
--- Filtros para la tabla `centros_consorcios`
+-- Constraints for table `centros_consorcios`
 --
 ALTER TABLE `centros_consorcios`
-  ADD CONSTRAINT `centro_ibfk_1` FOREIGN KEY (`cod_cent`) REFERENCES `centros` (`cod`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `consorcio_ibfk_1` FOREIGN KEY (`cod_cons`) REFERENCES `consorcios` (`cod`) ON UPDATE CASCADE;
+  ADD CONSTRAINT `centro_ibfk_1` FOREIGN KEY (`cod_cent`) REFERENCES `centros` (`cod`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `consorcio_ibfk_1` FOREIGN KEY (`cod_cons`) REFERENCES `consorcios` (`cod`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Filtros para la tabla `docs`
+-- Constraints for table `docs`
 --
 ALTER TABLE `docs`
-  ADD CONSTRAINT `fk_dni` FOREIGN KEY (`dni`) REFERENCES `personas` (`dni`) ON UPDATE CASCADE;
+  ADD CONSTRAINT `fk_dni` FOREIGN KEY (`dni`) REFERENCES `personas` (`dni`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Filtros para la tabla `flujo_personas`
+-- Constraints for table `flujo`
+--
+ALTER TABLE `flujo`
+  ADD CONSTRAINT `flujo_ibfk_1` FOREIGN KEY (`cod_consorcio`) REFERENCES `consorcios` (`cod`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `flujo_personas`
 --
 ALTER TABLE `flujo_personas`
-  ADD CONSTRAINT `fk_fpdni` FOREIGN KEY (`fpdni`) REFERENCES `personas` (`dni`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `fk_fpid` FOREIGN KEY (`fpid`) REFERENCES `flujo` (`id`) ON UPDATE CASCADE;
+  ADD CONSTRAINT `fk_fpdni` FOREIGN KEY (`fpdni`) REFERENCES `personas` (`dni`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_fpid` FOREIGN KEY (`fpid`) REFERENCES `flujo` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Filtros para la tabla `menores`
+-- Constraints for table `menores`
 --
 ALTER TABLE `menores`
-  ADD CONSTRAINT `menores_ibfk_1` FOREIGN KEY (`dni`) REFERENCES `personas` (`dni`) ON UPDATE CASCADE;
+  ADD CONSTRAINT `menores_ibfk_1` FOREIGN KEY (`dni`) REFERENCES `personas` (`dni`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Filtros para la tabla `personas`
+-- Constraints for table `personas`
 --
 ALTER TABLE `personas`
-  ADD CONSTRAINT `personas_ibfk_2` FOREIGN KEY (`codcent`) REFERENCES `centros` (`cod`) ON UPDATE CASCADE;
+  ADD CONSTRAINT `personas_ibfk_2` FOREIGN KEY (`codcent`) REFERENCES `centros` (`cod`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Filtros para la tabla `users`
+-- Constraints for table `users`
 --
 ALTER TABLE `users`
-  ADD CONSTRAINT `usuarios_ibfk_1` FOREIGN KEY (`user_name`) REFERENCES `personas` (`dni`) ON UPDATE CASCADE;
+  ADD CONSTRAINT `usuarios_ibfk_1` FOREIGN KEY (`user_name`) REFERENCES `personas` (`dni`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

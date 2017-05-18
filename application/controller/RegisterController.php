@@ -38,9 +38,9 @@ class RegisterController extends Controller
         $registration_successful = RegistrationModel::registerNewUser();
 
         if ($registration_successful) {
-            Redirect::to('login/index');
+            Redirect::to('dashboard/users');
         } else {
-            Redirect::to('register/index');
+            Redirect::to('dashboard/users');
         }
     }
 

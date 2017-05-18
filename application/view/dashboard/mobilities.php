@@ -85,33 +85,24 @@
         </div>
 
         <!-- jQuery -->
-        <script src="<?php echo Config::get('URL'); ?>vendors/jquery/dist/jquery.min.js"></script>
+        <script src="<?php echo Config::get('URL'); ?>js/jquery/jquery.min.js"></script>
         <!-- Bootstrap -->
-        <script src="<?php echo Config::get('URL'); ?>vendors/bootstrap/dist/js/bootstrap.min.js"></script>
-        <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
-        <script src="https://cdn.datatables.net/1.10.15/js/dataTables.bootstrap.min.js" charset="utf-8"></script>
-        <script src="https://cdn.datatables.net/buttons/1.3.1/js/dataTables.buttons.min.js" charset="utf-8"></script>
-        <script src="https://cdn.datatables.net/buttons/1.3.1/js/buttons.bootstrap.min.js" charset="utf-8"></script>
-        <script src="//cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js" charset="utf-8"></script>
-        <script src="//cdn.rawgit.com/bpampuch/pdfmake/0.1.27/build/pdfmake.min.js" charset="utf-8"></script>
-        <script src="//cdn.rawgit.com/bpampuch/pdfmake/0.1.27/build/vfs_fonts.js" charset="utf-8"></script>
-        <script src="//cdn.datatables.net/buttons/1.3.1/js/buttons.html5.min.js" charset="utf-8"></script>
-        <script src="//cdn.datatables.net/buttons/1.3.1/js/buttons.print.min.js" charset="utf-8"></script>
-        <script src="//cdn.datatables.net/buttons/1.3.1/js/buttons.colVis.min.js" charset="utf-8"></script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        <script src="<?php echo Config::get('URL'); ?>js/bootstrap/bootstrap.min.js"></script>
+        <!-- Custom Theme Scripts -->
+        <script src="<?php echo Config::get('URL'); ?>js/admin/custom.min.js"></script>
+        <!-- PNotify -->
+        <script type="text/javascript" src="<?php echo Config::get('URL'); ?>js/pnotify/pnotify.custom.min.js"></script>
+        <!-- DataTables -->
+        <script type="text/javascript" charset="utf8" src="<?php echo Config::get('URL'); ?>js/datatables/jquery.dataTables.min.js"></script>
+        <script src="<?php echo Config::get('URL'); ?>js/datatables/dataTables.bootstrap.min.js" charset="utf-8"></script>
+        <script src="<?php echo Config::get('URL'); ?>js/datatables/dataTables.buttons.min.js" charset="utf-8"></script>
+        <script src="<?php echo Config::get('URL'); ?>js/datatables/buttons.bootstrap.min.js" charset="utf-8"></script>
+        <script src="<?php echo Config::get('URL'); ?>js/datatables/jszip.min.js" charset="utf-8"></script>
+        <script src="<?php echo Config::get('URL'); ?>js/datatables/buttons.html5.min.js" charset="utf-8"></script>
+        <script src="<?php echo Config::get('URL'); ?>js/datatables/buttons.print.min.js" charset="utf-8"></script>
+        <script src="<?php echo Config::get('URL'); ?>js/datatables/buttons.colVis.min.js" charset="utf-8"></script>
+        <script src="<?php echo Config::get('URL'); ?>js/datatables/pdfmake.min.js" charset="utf-8"></script>
+        <script src="<?php echo Config::get('URL'); ?>js/datatables/vfs_fonts.js" charset="utf-8"></script>
 
 <script type="text/javascript">
 $(document).ready(function() {
@@ -156,7 +147,3 @@ $(document).ready(function() {
 } );
 
 </script>
-
-
-<!-- Custom Theme Scripts -->
-<script src="<?php echo Config::get('URL'); ?>build/js/custom.min.js"></script>

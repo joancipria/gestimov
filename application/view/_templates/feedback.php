@@ -7,13 +7,22 @@ $feedback_negative = Session::get('feedback_negative');
 // echo out positive messages
 if (isset($feedback_positive)) {
     foreach ($feedback_positive as $feedback) {
-        echo '<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>'.$feedback.'</div>';
+      echo "
+                <script type='text/javascript'>
+                document.addEventListener('DOMContentLoaded', function(event) {
+                  notifyUser('Successful','$feedback','success');
+                });
+                </script>";
     }
 }
 
 // echo out negative messages
 if (isset($feedback_negative)) {
     foreach ($feedback_negative as $feedback) {
-        echo '<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>'.$feedback.'</div>';
-    }
+      echo "
+                <script type='text/javascript'>
+                document.addEventListener('DOMContentLoaded', function(event) {
+                        notifyUser('Error','$feedback','error');
+                });
+                </script>";    }
 }

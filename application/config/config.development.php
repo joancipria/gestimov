@@ -154,5 +154,7 @@ return array(
     'EMAIL_VERIFICATION_FROM_EMAIL' => 'no-reply@example.com',
     'EMAIL_VERIFICATION_FROM_NAME' => 'Gestimov+',
     'EMAIL_VERIFICATION_SUBJECT' => 'Account activation for Gestimov+',
+    'EMAIL_VERIFICATION_USER_NAME_CONTENT' => 'Your can login with your national document identifier or using your e-mail. ',
+    'EMAIL_VERIFICATION_USER_PASSWORD_CONTENT' => 'Your auto-generated password is: ',
     'EMAIL_VERIFICATION_CONTENT' => 'Please click on this link to activate your account: ',
 );
